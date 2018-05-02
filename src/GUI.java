@@ -2,6 +2,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JButton;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,31 +16,27 @@ import java.awt.Toolkit;
  *
  * @author seanm
  */
-public class GUI extends javax.swing.JFrame {
+public class GUI extends javax.swing.JFrame{
 
     /**
      * Creates new form GUI
      */
-    int[][] maze
-            = {
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                {2, 1, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 2},
-                {2, 0, 2, 0, 0, 0, 2, 0, 2, 2, 2, 0, 2},
-                {2, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 2},
-                {2, 0, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 2},
-                {2, 0, 2, 0, 2, 2, 2, 0, 2, 0, 0, 0, 2},
-                {2, 0, 2, 0, 2, 0, 0, 0, 2, 2, 2, 0, 2},
-                {2, 0, 2, 0, 2, 2, 2, 0, 2, 9, 2, 0, 2},
-                {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2},
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
-            };
+    MazeRunner mazeRunner;
+
+    @Override
+    public synchronized void addKeyListener(KeyListener l) {
+        super.addKeyListener(l); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
-    public GUI() {
+    public GUI(MazeRunner mazeRunner) {
         initComponents();
         setIcon();
+        this.mazeRunner = mazeRunner;
+        field.addKeyListener(new ManualSolver(mazeRunner));
+        this.setVisible(true);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,6 +51,8 @@ public class GUI extends javax.swing.JFrame {
         resetCurrentMazeButton = new javax.swing.JButton();
         autoSolveButton = new javax.swing.JButton();
         manualSolveButton = new javax.swing.JButton();
+        field = new javax.swing.JTextField();
+        giveUpButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Minotaur");
@@ -74,17 +75,37 @@ public class GUI extends javax.swing.JFrame {
         autoSolveButton.setText("Auto Solve");
 
         manualSolveButton.setText("Manual Solve");
+        manualSolveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manualSolveButtonActionPerformed(evt);
+            }
+        });
+
+        field.setEditable(false);
+        field.setBackground(new java.awt.Color(0, 0, 0));
+        field.setBorder(null);
+
+        giveUpButton.setText("Give Up!");
+        giveUpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                giveUpButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout OuterFrameLayout = new javax.swing.GroupLayout(OuterFrame);
         OuterFrame.setLayout(OuterFrameLayout);
         OuterFrameLayout.setHorizontalGroup(
             OuterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(OuterFrameLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OuterFrameLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(createNewMazeButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(resetCurrentMazeButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 338, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 253, Short.MAX_VALUE)
+                .addComponent(giveUpButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(autoSolveButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(manualSolveButton)
@@ -92,15 +113,20 @@ public class GUI extends javax.swing.JFrame {
         );
         OuterFrameLayout.setVerticalGroup(
             OuterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OuterFrameLayout.createSequentialGroup()
+            .addGroup(OuterFrameLayout.createSequentialGroup()
                 .addContainerGap(580, Short.MAX_VALUE)
-                .addGroup(OuterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(createNewMazeButton)
-                    .addComponent(resetCurrentMazeButton)
-                    .addComponent(autoSolveButton)
-                    .addComponent(manualSolveButton))
+                .addGroup(OuterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OuterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(createNewMazeButton)
+                        .addComponent(resetCurrentMazeButton)
+                        .addComponent(autoSolveButton)
+                        .addComponent(manualSolveButton)
+                        .addComponent(field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(giveUpButton, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
+
+        giveUpButton.setVisible(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,6 +145,29 @@ public class GUI extends javax.swing.JFrame {
     private void createNewMazeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNewMazeButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_createNewMazeButtonActionPerformed
+
+    private void manualSolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualSolveButtonActionPerformed
+        // TODO add your handling code here:
+        mazeRunner.manualSolve();
+        giveUpButton.setVisible(true);
+        repaint();
+        field.requestFocus();
+        createNewMazeButton.setVisible(false);
+        resetCurrentMazeButton.setVisible(false);
+        autoSolveButton.setVisible(false);
+        manualSolveButton.setVisible(false);
+    }//GEN-LAST:event_manualSolveButtonActionPerformed
+
+    private void giveUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_giveUpButtonActionPerformed
+        // TODO add your handling code here:
+        giveUpButton.setVisible(false);
+        createNewMazeButton.setVisible(true);
+        resetCurrentMazeButton.setVisible(true);
+        autoSolveButton.setVisible(true);
+        manualSolveButton.setVisible(true);
+        OuterFrame.requestFocus();
+        
+    }//GEN-LAST:event_giveUpButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,21 +194,14 @@ public class GUI extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUI().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel OuterFrame;
     private javax.swing.JButton autoSolveButton;
     private javax.swing.JButton createNewMazeButton;
+    private javax.swing.JTextField field;
+    private javax.swing.JButton giveUpButton;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -182,15 +224,17 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton resetCurrentMazeButton;
     // End of variables declaration//GEN-END:variables
 
+    
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
         g.translate(225, 50);
-        for (int row = 0; row < maze.length; row++) {
-            for (int col = 0; col < maze[0].length; col++) {
+        int [][] currentMaze = mazeRunner.getDefaultMaze();
+        for (int row = 0; row < currentMaze.length; row++) {
+            for (int col = 0; col < currentMaze[0].length; col++) {
                 Color color;
-                switch (maze[row][col]) {
+                switch (currentMaze[row][col]) {
                     case 1:
                         color = Color.BLUE;
                         break;
@@ -215,7 +259,8 @@ public class GUI extends javax.swing.JFrame {
                 g.drawRect(30 * col, 30 * row, 30, 30);
             }
         }
-    }
+    }    
+    //Icon source: http://game-icons.net/lorc/originals/bull.html
     private void setIcon() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/bull.png")));
     }

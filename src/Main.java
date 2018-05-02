@@ -1,3 +1,9 @@
+
+import java.awt.FlowLayout;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 /**
  *
  * @author Sean Matthew
@@ -5,8 +11,9 @@
 public class Main {
     
     public static void main(String[] args){
-        GUI gui = new GUI();
-        gui.setVisible(true);
+        MazeRunner mazeRunner = new MazeRunner();
+        GUI gui = new GUI(mazeRunner); 
+        //gui.setVisible(true);
     }
     
     

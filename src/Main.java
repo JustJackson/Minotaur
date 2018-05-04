@@ -13,6 +13,7 @@ public class Main {
     public static void main(String[] args){
         MazeRunner mazeRunner = new MazeRunner();
         GUI gui = new GUI(mazeRunner); 
+        mazeRunner.attachGUI(gui);
 
     }
     

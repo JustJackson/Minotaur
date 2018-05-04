@@ -1,4 +1,3 @@
-
 import java.awt.FlowLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,8 +10,11 @@ import javax.swing.JTextField;
 public class Main {
     
     public static void main(String[] args){
-        MazeRunner mazeRunner = new MazeRunner();
-        GUI gui = new GUI(mazeRunner); 
+//        MazeRunner mazeRunner = new MazeRunner();
+//        GUI gui = new GUI(mazeRunner); 
+          MazeBuilder mazeBuilder = new MazeBuilder();
+          mazeBuilder.generateMaze();
+          mazeBuilder.prettyPrint();
 
     }
     

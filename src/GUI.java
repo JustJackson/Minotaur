@@ -33,7 +33,6 @@ public class GUI extends javax.swing.JFrame{
         initComponents();
         setIcon();
         this.mazeRunner = mazeRunner;
-        field.addKeyListener(new ManualSolver(mazeRunner));
         this.setVisible(true);
     }
     
@@ -149,6 +148,7 @@ public class GUI extends javax.swing.JFrame{
     private void manualSolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualSolveButtonActionPerformed
         // TODO add your handling code here:
         mazeRunner.manualSolve();
+        field.addKeyListener(mazeRunner.ms);
         giveUpButton.setVisible(true);
         repaint();
         field.requestFocus();
@@ -160,11 +160,14 @@ public class GUI extends javax.swing.JFrame{
 
     private void giveUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_giveUpButtonActionPerformed
         // TODO add your handling code here:
+        field.removeKeyListener(mazeRunner.ms);
         giveUpButton.setVisible(false);
         createNewMazeButton.setVisible(true);
         resetCurrentMazeButton.setVisible(true);
         autoSolveButton.setVisible(true);
         manualSolveButton.setVisible(true);
+        mazeRunner.resetMaze();
+        repaint();
         OuterFrame.requestFocus();
         
     }//GEN-LAST:event_giveUpButtonActionPerformed
@@ -230,7 +233,7 @@ public class GUI extends javax.swing.JFrame{
         super.paint(g);
 
         g.translate(225, 50);
-        int [][] currentMaze = mazeRunner.getDefaultMaze();
+        int [][] currentMaze = mazeRunner.getMaze();
         for (int row = 0; row < currentMaze.length; row++) {
             for (int col = 0; col < currentMaze[0].length; col++) {
                 Color color;

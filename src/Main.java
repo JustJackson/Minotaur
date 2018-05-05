@@ -10,11 +10,10 @@ import javax.swing.JTextField;
 public class Main {
     
     public static void main(String[] args){
-//        MazeRunner mazeRunner = new MazeRunner();
-//        GUI gui = new GUI(mazeRunner); 
-          MazeBuilder mazeBuilder = new MazeBuilder();
-          mazeBuilder.generateMaze();
-          mazeBuilder.prettyPrint();
+        MazeRunner mazeRunner = new MazeRunner();
+        GUI gui = new GUI(mazeRunner);
+        mazeRunner.attachGUI(gui);
+          
 
     }
     

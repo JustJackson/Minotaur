@@ -13,6 +13,14 @@ class MazeRunner {
     int[][] maze;
     ManualSolver ms;
     GUI gui;
+    MazeBuilder mazeBuilder;
+    
+    static final int NOTVISITED = 0;
+    static final int START = 1;
+    static final int WALL = 2;
+    static final int VISITED = 3;
+    static final int CURRENTLOCATION = 4;
+    static final int END = 9;
     
     /**
      * Values: 1 = START, 0 = not visited, 2 = wall, 3 = visited, 4 = current location, 9 = END
@@ -35,6 +43,8 @@ class MazeRunner {
                 {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2},
                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
             };
+        mazeBuilder = new MazeBuilder();
+        mazeBuilder.generateMaze();
         maze = defaultMaze;
     }
 

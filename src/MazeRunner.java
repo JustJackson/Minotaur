@@ -21,6 +21,7 @@ class MazeRunner {
     static final int VISITED = 3;
     static final int CURRENTLOCATION = 4;
     static final int END = 9;
+    int currentNumMoves;
     
     /**
      * Values: 1 = START, 0 = not visited, 2 = wall, 3 = visited, 4 = current location, 9 = END
@@ -43,9 +44,11 @@ class MazeRunner {
                 {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2},
                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
             };
+        currentNumMoves = 0;
         mazeBuilder = new MazeBuilder();
         mazeBuilder.generateMaze();
-        maze = defaultMaze;
+        maze = mazeBuilder.returnMaze();
+
     }
 
     public int[][] getMaze() {
@@ -77,7 +80,7 @@ class MazeRunner {
      * @param newValue 
      */
     public void setCell(int cellX, int cellY, int newValue){
-        maze[cellY][cellX] = 4;
+        maze[cellY][cellX] = newValue;
     }
     public int getCell(int cellX, int cellY){
         return maze[cellY][cellX];
@@ -94,6 +97,16 @@ class MazeRunner {
     public void resetCurrentMaze(){
         mazeBuilder.generateMaze();
         maze = mazeBuilder.returnMaze();
+    }
+    
+    public void incrementCurrentNumMoves(){
+        currentNumMoves++;
+    }
+    public int getCurrentNumMoves(){
+        return currentNumMoves;
+    }
+    public void resetCurrentNumMoves(){
+        currentNumMoves = 0;
     }
     
 }

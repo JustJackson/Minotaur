@@ -52,6 +52,7 @@ public class GUI extends javax.swing.JFrame{
         manualSolveButton = new javax.swing.JButton();
         field = new javax.swing.JTextField();
         giveUpButton = new javax.swing.JButton();
+        currentNumMovesDisplay = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Minotaur");
@@ -91,6 +92,13 @@ public class GUI extends javax.swing.JFrame{
             }
         });
 
+        currentNumMovesDisplay.setEditable(false);
+        currentNumMovesDisplay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                currentNumMovesDisplayActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout OuterFrameLayout = new javax.swing.GroupLayout(OuterFrame);
         OuterFrame.setLayout(OuterFrameLayout);
         OuterFrameLayout.setHorizontalGroup(
@@ -100,7 +108,9 @@ public class GUI extends javax.swing.JFrame{
                 .addComponent(createNewMazeButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(resetCurrentMazeButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 253, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3425, Short.MAX_VALUE)
+                .addComponent(currentNumMovesDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(giveUpButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -121,11 +131,14 @@ public class GUI extends javax.swing.JFrame{
                         .addComponent(autoSolveButton)
                         .addComponent(manualSolveButton)
                         .addComponent(field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(giveUpButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OuterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(giveUpButton)
+                        .addComponent(currentNumMovesDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         giveUpButton.setVisible(false);
+        currentNumMovesDisplay.setVisible(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -149,6 +162,8 @@ public class GUI extends javax.swing.JFrame{
         // TODO add your handling code here:
         mazeRunner.manualSolve();
         field.addKeyListener(mazeRunner.ms);
+        currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
+        currentNumMovesDisplay.setVisible(true);
         giveUpButton.setVisible(true);
         repaint();
         field.requestFocus();
@@ -162,6 +177,7 @@ public class GUI extends javax.swing.JFrame{
         // TODO add your handling code here:
         field.removeKeyListener(mazeRunner.ms);
         giveUpButton.setVisible(false);
+        currentNumMovesDisplay.setVisible(false);
         createNewMazeButton.setVisible(true);
         resetCurrentMazeButton.setVisible(true);
         autoSolveButton.setVisible(true);
@@ -171,6 +187,10 @@ public class GUI extends javax.swing.JFrame{
         OuterFrame.requestFocus();
         
     }//GEN-LAST:event_giveUpButtonActionPerformed
+
+    private void currentNumMovesDisplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_currentNumMovesDisplayActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_currentNumMovesDisplayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,6 +223,7 @@ public class GUI extends javax.swing.JFrame{
     private javax.swing.JPanel OuterFrame;
     private javax.swing.JButton autoSolveButton;
     private javax.swing.JButton createNewMazeButton;
+    private javax.swing.JTextField currentNumMovesDisplay;
     private javax.swing.JTextField field;
     private javax.swing.JButton giveUpButton;
     private javax.swing.JButton manualSolveButton;

@@ -12,6 +12,7 @@ class MazeRunner {
     
     int[][] maze;
     ManualSolver ms;
+    GUI gui;
     
     /**
      * Values: 1 = START, 0 = not visited, 2 = wall, 3 = visited, 4 = current location, 9 = END
@@ -68,4 +69,14 @@ class MazeRunner {
     public void setCell(int cellX, int cellY, int newValue){
         maze[cellY][cellX] = 4;
     }
+    public int getCell(int cellX, int cellY){
+        return maze[cellY][cellX];
+    }
+    public void attachGUI(GUI gui){
+        this.gui = gui;
+    }
+    public void updateDisplay(){
+        gui.repaint();
+    }
+    
 }

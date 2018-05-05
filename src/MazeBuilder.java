@@ -7,8 +7,7 @@ import java.util.Random;
 
 public class MazeBuilder {
 
-    private class Cell {
-
+    public class Cell {
         int cellType = nonInitialized;
     }
 

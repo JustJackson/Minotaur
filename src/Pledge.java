@@ -1,31 +1,47 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 import java.util.Random;
+
 
 /**
  *
- * @author jackson
+ * @author Michael DuBose
  */
-public class randomMouse implements AutoSolver {
-
+public class Pledge implements AutoSolver{
+    
+    
     MazeRunner mazeRunner;
     int[][] maze;
+    
     int self_x = 0;
     int self_y = 0;
     int moveCounter = 0;
 
+    
+    
     final int North = 0;
     final int East = 1;
     final int South = 2;
     final int West = 3;
-
+    int[][] directionalMatrix
+            = {
+                {East, North, West, South},
+                {South, East, North, West}, 
+                {West, South, East, North},
+                {North, West, South, East}}
+            ;
+    int[][] directionalMatrixValue = {
+                {0, 1, 2, -1},
+                {-1, 0, 1, 2}, 
+                {2, -1, 0, 1},
+                {1, 2, -1, 0}}
+            ;
+    int[] directionIndex = {North, East, South, West};
+    int preferredDirection = North;
     int currentDirection = North;
+    int count = 0;
 
-    boolean Collision() {
-        switch (currentDirection) {
+    boolean Collision(int direction) {
+        switch (direction) {
             case North:
                 return maze[self_x][self_y - 1] == 0;
             case South:
@@ -40,24 +56,43 @@ public class randomMouse implements AutoSolver {
         }
     }
 
-    void changeDirection() {
+    void pledgeAlgorithm() {
+        if(count != 0){
+            for(int i = 0; i < 3; i++){
+            if(!Collision(directionalMatrix[currentDirection][i])){
+                count += directionalMatrixValue[currentDirection][i];
+                currentDirection = directionIndex[i];  
+                Move();
+                break;
+            }
+            else Move();
+
+            }
+            
+        }
+    }
+    
+    void setPreferredDirection() {
         Random numGenerator = new Random();
         int choice = numGenerator.nextInt(4);
         switch (choice) {
             case 0:
-                currentDirection = North;
+                preferredDirection = North;
                 break;
             case 1:
-                currentDirection = East;
+                preferredDirection = East;
                 break;
             case 2:
-                currentDirection = South;
+                preferredDirection = South;
                 break;
             case West:
-                currentDirection = West;
+                preferredDirection = West;
                 break;
         }
+        System.out.println("Your preferred choice is " + choice);
     }
+    
+    
 
     void Move() {
         moveCounter++;
@@ -80,11 +115,12 @@ public class randomMouse implements AutoSolver {
     void Solve(int[][] Maze, int x, int y) {
         self_x = x;
         self_y = y;
+        setPreferredDirection();
         //Waiting for MazeRunner to be built and how we're going to mess with
         //Imports, in future, will change to const GOAL state.
         while (!(Maze[self_x][self_y] == 3)) {
-            if (Collision()) {
-                changeDirection();
+            if (Collision(currentDirection)) {
+                pledgeAlgorithm();
             } else {
                 Move();
             }

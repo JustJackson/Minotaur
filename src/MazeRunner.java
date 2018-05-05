@@ -88,5 +88,12 @@ class MazeRunner {
     public void updateDisplay(){
         gui.repaint();
     }
+    public void createNewMaze(){
+        maze = mazeBuilder.returnMaze();
+    }
+    public void resetCurrentMaze(){
+        mazeBuilder.generateMaze();
+        maze = mazeBuilder.returnMaze();
+    }
     
 }

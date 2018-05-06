@@ -33,10 +33,10 @@ public class MazeBuilder {
                 result = !(y + 1 < length);
                 break;
             case 'E':
-                result = !(x - 1 < 1);
+                result = !(x + 1 < width);
                 break;
             case 'W':
-                result = !(x + 1 < width);
+                result = !(x - 1 < 1);
                 break;
         }
         return result;
@@ -120,10 +120,11 @@ public class MazeBuilder {
 //            maze[j][0] = MazeRunner.WALL;
 //            maze[j][width-1] = MazeRunner.WALL;
 //        }
-        currentX = numGenerator.nextInt(width) + 1;
-        currentY = numGenerator.nextInt(length) + 1;
+        currentX = numGenerator.nextInt(width);
+        currentY = numGenerator.nextInt(length);
         randomWalk();
         initalizeMaze();
+        prettyPrint();
     }
 
     int[][] returnMaze() {

@@ -33,10 +33,10 @@ public class MazeBuilder {
                 result = !(y + 1 < length);
                 break;
             case 'E':
-                result = !(x - 1 < 1);
+                result = !(x + 1 < width);
                 break;
             case 'W':
-                result = !(x + 1 < width);
+                result = !(x - 1 < 1);
                 break;
         }
         return result;
@@ -46,6 +46,8 @@ public class MazeBuilder {
         maze[currentX][currentY] = MazeRunner.START;
         boolean exitCondition = false;
         Random numGenerator = new Random();
+        int minDistance = (width)/2;
+        int counter = 0;
         while (!exitCondition) {
             if (maze[currentX][currentY] == nonInitialized) {
                 maze[currentX][currentY] = MazeRunner.NOTVISITED;
@@ -54,31 +56,35 @@ public class MazeBuilder {
             int choice = numGenerator.nextInt(21);
             //We could make this just a break and have an unlimited for 
             //but I think this is better for clarity.
-            if (choice == 0) {
+            if (choice == 0 && counter > minDistance) {
                 maze[currentX][currentY] = MazeRunner.END;
                 exitCondition = true;
                 continue;
             }
             if (choice > 1 && choice <= 5) {
                 if (boundCheck('N', currentX, currentY)) {
+                    counter++;
                     currentY--;
                     continue;
                 }
             }
             if (choice > 5 && choice <= 10) {
                 if (boundCheck('S', currentX, currentY)) {
+                    counter++;
                     currentY++;
                     continue;
                 }
             }
             if (choice > 10 && choice <= 15) {
                 if (boundCheck('E', currentX, currentY)) {
+                    counter++;
                     currentX++;
                     continue;
                 }
             }
             if (choice > 15 && choice <= 20) {
                 if (boundCheck('W', currentX, currentY)) {
+                    counter++;
                     currentX--;
                     continue;
                 }
@@ -90,11 +96,11 @@ public class MazeBuilder {
 
     void initalizeMaze() {
         Random numGenerator = new Random();
-        for (int y = 0; y < length - 1; y++) {
-            for (int x = 0; x < width - 1; x++) {
+        for (int y = 0; y < length; y++) {
+            for (int x = 0; x < width; x++) {
                 if (maze[x][y] == nonInitialized) {
-                    int value = numGenerator.nextInt(2);
-                    maze[x][y] = ((value == 0) ? MazeRunner.NOTVISITED : MazeRunner.WALL);
+                    int value = numGenerator.nextInt(10)+1;
+                    maze[x][y] = ((value  > 6) ? MazeRunner.NOTVISITED : MazeRunner.WALL);
                 }
             }
         }
@@ -112,18 +118,19 @@ public class MazeBuilder {
             }
         }
         //Initialize the Walls
-//        for (int i = 0; i<width-1; i++){
-//            maze[0][i] = MazeRunner.WALL;
-//            maze[length-1][i] = MazeRunner.WALL;
-//        }
-//        for (int j = 0; j<length-1; j++){
-//            maze[j][0] = MazeRunner.WALL;
-//            maze[j][width-1] = MazeRunner.WALL;
-//        }
-        currentX = numGenerator.nextInt(width) + 1;
-        currentY = numGenerator.nextInt(length) + 1;
+        for (int i = 0; i< length-1; i++){
+            maze[0][i] = MazeRunner.WALL;
+            maze[width-1][i] = MazeRunner.WALL;
+        }
+        for (int j = 0; j<width; j++){
+            maze[j][0] = MazeRunner.WALL;
+            maze[j][length-1] = MazeRunner.WALL;
+        }
+        currentX = numGenerator.nextInt(width-1)+1;
+        currentY = numGenerator.nextInt(length-1)+1;
         randomWalk();
         initalizeMaze();
+        prettyPrint();
     }
 
     int[][] returnMaze() {

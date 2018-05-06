@@ -78,8 +78,8 @@ public class randomMouse implements AutoSolver {
     }
 
     public void Solve(int[][] Maze) {
-        self_x = start;
-        self_y = y;
+        self_x = 0;
+        self_y = 0;
         //Waiting for MazeRunner to be built and how we're going to mess with
         //Imports, in future, will change to const GOAL state.
         while (!(Maze[self_x][self_y] == 3)) {
@@ -91,5 +91,6 @@ public class randomMouse implements AutoSolver {
         }
 
     }
+}
 
 

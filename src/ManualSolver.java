@@ -12,8 +12,8 @@ public class ManualSolver implements KeyListener {
         System.out.println("Entering Manual Solver");
         this.mazeRunner = mazeRunner;
         for (int i=0; i< mazeRunner.getMaze().length; i++){
-            for (int j=0; j<mazeRunner.getMaze()[0].length; j++){
-                if (mazeRunner.getMaze()[i][j] == 1){
+            for (int j=0; j<mazeRunner.getMaze()[i].length; j++){
+                if (mazeRunner.getMaze()[i][j] == MazeRunner.START || mazeRunner.getMaze()[i][j] == MazeRunner.CURRENTLOCATION){
                     currentX = j;
                     currentY = i;
                     mazeRunner.setCell(currentX, currentY, 4);
@@ -57,19 +57,24 @@ public class ManualSolver implements KeyListener {
     
     private void attemptMove(int x, int y){
         System.out.println("Attempting to move to (" + x + ", " + y + ")");
-        if (mazeRunner.getCell(x, y) == 9){
-            System.out.println("YOU WIN!");
+        if (mazeRunner.getCell(x, y) == MazeRunner.END){
+            moveCurrentLocation(x, y);
             mazeRunner.displayWinMessage();
+            mazeRunner.resetCurrentMaze();
         }
-        if (mazeRunner.getCell(x, y) != 2){
-            mazeRunner.setCell(x, y, 4);
-            mazeRunner.setCell(currentX, currentY, 3);
+        else if (mazeRunner.getCell(x, y) != MazeRunner.WALL){
+            moveCurrentLocation(x, y);
+        }else
+            System.out.println("Invalid move: Wall");
+    }
+    
+    private void moveCurrentLocation(int x, int y){
+        mazeRunner.setCell(x, y, MazeRunner.CURRENTLOCATION);
+            mazeRunner.setCell(currentX, currentY, MazeRunner.VISITED);
             currentX = x;
             currentY = y;
             mazeRunner.incrementCurrentNumMoves();
             mazeRunner.updateDisplay();
-        }else
-            System.out.println("Invalid move: Wall");
     }
 
     

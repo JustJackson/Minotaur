@@ -191,16 +191,7 @@ public class GUI extends javax.swing.JFrame{
 
     private void giveUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_giveUpButtonActionPerformed
         // TODO add your handling code here:
-        field.removeKeyListener(mazeRunner.ms);
-        giveUpButton.setVisible(false);
-        currentNumMovesDisplay.setVisible(false);
-        currentNumMovesLabel.setVisible(false);
-        createNewMazeButton.setVisible(true);
-        resetCurrentMazeButton.setVisible(true);
-        autoSolveButton.setVisible(true);
-        manualSolveButton.setVisible(true);
-        repaint();
-        OuterFrame.requestFocus();
+        setBaseState();
         
     }//GEN-LAST:event_giveUpButtonActionPerformed
 
@@ -211,7 +202,6 @@ public class GUI extends javax.swing.JFrame{
     private void resetCurrentMazeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetCurrentMazeButtonActionPerformed
         // TODO add your handling code here:
         mazeRunner.resetCurrentMaze();
-        repaint();
     }//GEN-LAST:event_resetCurrentMazeButtonActionPerformed
 
     /**
@@ -261,22 +251,22 @@ public class GUI extends javax.swing.JFrame{
         g.translate(225, 50);
         int [][] currentMaze = mazeRunner.getMaze();
         for (int row = 0; row < currentMaze.length; row++) {
-            for (int col = 0; col < currentMaze[0].length; col++) {
+            for (int col = 0; col < currentMaze[row].length; col++) {
                 Color color;
                 switch (currentMaze[row][col]) {
-                    case 1:
+                    case MazeRunner.START:
                         color = Color.BLUE;
                         break;
-                    case 2:
+                    case MazeRunner.WALL:
                         color = Color.BLACK;
                         break;
-                    case 3:
+                    case MazeRunner.VISITED:
                         color = Color.YELLOW;
                         break;
-                    case 4:
+                    case MazeRunner.CURRENTLOCATION:
                         color = Color.RED;
                         break;
-                    case 9:
+                    case MazeRunner.END:
                         color = Color.GREEN;
                         break;
                     default:
@@ -298,8 +288,24 @@ public class GUI extends javax.swing.JFrame{
         currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
     }
     
-    public void displayWinMessage(){
-        JOptionPane.showMessageDialog(rootPane, "Congratulations, You've Won!  Total Number of Moves: " + mazeRunner.getCurrentNumMoves());
+
+    public void displaySolvedMessage(){
+        currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
+        JOptionPane.showMessageDialog(rootPane, "Congratulations, You've solved the maze!  Total Number of Moves: " + mazeRunner.getCurrentNumMoves());
+        setBaseState();
+    }
+    
+    private void setBaseState(){
+        field.removeKeyListener(mazeRunner.ms);
+        giveUpButton.setVisible(false);
+        currentNumMovesDisplay.setVisible(false);
+        currentNumMovesLabel.setVisible(false);
+        createNewMazeButton.setVisible(true);
+        resetCurrentMazeButton.setVisible(true);
+        autoSolveButton.setVisible(true);
+        manualSolveButton.setVisible(true);
+        repaint();
+        OuterFrame.requestFocus();
     }
     
 }

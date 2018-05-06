@@ -21,7 +21,7 @@ class MazeRunner {
     static final int VISITED = 3;
     static final int CURRENTLOCATION = 4;
     static final int END = 9;
-    int currentNumMoves = 0;
+    int currentNumMoves;
     
     /**
      * Values: 1 = START, 0 = not visited, 2 = wall, 3 = visited, 4 = current location, 9 = END
@@ -31,47 +31,17 @@ class MazeRunner {
     This is a dummy maze until we get a functioning MazeBuilder
     */
     public MazeRunner(){
-        int[][] defaultMaze
-            = {
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                {2, 1, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 2},
-                {2, 0, 2, 0, 0, 0, 2, 0, 2, 2, 2, 0, 2},
-                {2, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 2},
-                {2, 0, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 2},
-                {2, 0, 2, 0, 2, 2, 2, 0, 2, 0, 0, 0, 2},
-                {2, 0, 2, 0, 2, 0, 0, 0, 2, 2, 2, 0, 2},
-                {2, 0, 2, 0, 2, 2, 2, 0, 2, 9, 2, 0, 2},
-                {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2},
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
-            };
         mazeBuilder = new MazeBuilder();
-        mazeBuilder.generateMaze();
-        maze = mazeBuilder.returnMaze();
-
+        createNewMaze();
+        currentNumMoves = 0;
     }
 
     public int[][] getMaze() {
         return maze;
     }
-    public void resetMaze(){
-        int[][] defaultMaze
-            = {
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                {2, 1, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 2},
-                {2, 0, 2, 0, 0, 0, 2, 0, 2, 2, 2, 0, 2},
-                {2, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 2},
-                {2, 0, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 2},
-                {2, 0, 2, 0, 2, 2, 2, 0, 2, 0, 0, 0, 2},
-                {2, 0, 2, 0, 2, 0, 0, 0, 2, 2, 2, 0, 2},
-                {2, 0, 2, 0, 2, 2, 2, 0, 2, 9, 2, 0, 2},
-                {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2},
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
-            };
-        maze = defaultMaze;
-    }
+    
     public void manualSolve(){
         ms = new ManualSolver(this);
-        currentNumMoves = 0;
     }
     /**
      * newValue: 1 = START, 0 = not visited, 2 = wall, 3 = visited, 4 = current location, 9 = END
@@ -82,22 +52,30 @@ class MazeRunner {
     public void setCell(int cellX, int cellY, int newValue){
         maze[cellY][cellX] = newValue;
     }
+    
     public int getCell(int cellX, int cellY){
         return maze[cellY][cellX];
     }
+    
     public void attachGUI(GUI gui){
         this.gui = gui;
     }
+    
     public void updateDisplay(){
         gui.updateCurrentNumMoves();
         gui.repaint();
     }
+    
     public void createNewMaze(){
-        maze = mazeBuilder.returnMaze();
+        mazeBuilder.generateMaze();
+        replaceMaze();
+        currentNumMoves = 0;
     }
     public void resetCurrentMaze(){
-        mazeBuilder.generateMaze();
-        maze = mazeBuilder.returnMaze();
+        
+        replaceMaze();
+        currentNumMoves = 0;
+        gui.repaint();
     }
     
     public void incrementCurrentNumMoves(){
@@ -110,8 +88,19 @@ class MazeRunner {
         currentNumMoves = 0;
     }
     public void displayWinMessage(){
-        gui.displayWinMessage();
+        gui.displaySolvedMessage();
         currentNumMoves = 0;
+        resetCurrentMaze();
+        resetCurrentMaze();
+    }
+    private void replaceMaze(){
+        int[][]  newMaze = new int[mazeBuilder.returnMaze().length][mazeBuilder.returnMaze()[0].length];
+        for (int i=0; i<mazeBuilder.returnMaze().length; i++){
+            for (int j=0; j<mazeBuilder.returnMaze()[i].length; j++){
+                newMaze[i][j] = mazeBuilder.returnMaze()[i][j];
+            }
+        }
+        maze = newMaze;
     }
     
 }

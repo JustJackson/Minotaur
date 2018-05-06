@@ -53,6 +53,8 @@ public class GUI extends javax.swing.JFrame{
         field = new javax.swing.JTextField();
         giveUpButton = new javax.swing.JButton();
         currentNumMovesDisplay = new javax.swing.JTextField();
+        currentNumMovesLabel = new javax.swing.JLabel();
+        currentNumMovesLabel.setVisible(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Minotaur");
@@ -99,6 +101,8 @@ public class GUI extends javax.swing.JFrame{
             }
         });
 
+        currentNumMovesLabel.setText("Current Number Of Moves: ");
+
         javax.swing.GroupLayout OuterFrameLayout = new javax.swing.GroupLayout(OuterFrame);
         OuterFrame.setLayout(OuterFrameLayout);
         OuterFrameLayout.setHorizontalGroup(
@@ -108,7 +112,9 @@ public class GUI extends javax.swing.JFrame{
                 .addComponent(createNewMazeButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(resetCurrentMazeButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3425, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3288, Short.MAX_VALUE)
+                .addComponent(currentNumMovesLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(currentNumMovesDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(giveUpButton)
@@ -133,7 +139,8 @@ public class GUI extends javax.swing.JFrame{
                         .addComponent(field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OuterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(giveUpButton)
-                        .addComponent(currentNumMovesDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(currentNumMovesDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(currentNumMovesLabel)))
                 .addContainerGap())
         );
 
@@ -164,6 +171,7 @@ public class GUI extends javax.swing.JFrame{
         field.addKeyListener(mazeRunner.ms);
         currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
         currentNumMovesDisplay.setVisible(true);
+        currentNumMovesLabel.setVisible(true);
         giveUpButton.setVisible(true);
         repaint();
         field.requestFocus();
@@ -178,6 +186,7 @@ public class GUI extends javax.swing.JFrame{
         field.removeKeyListener(mazeRunner.ms);
         giveUpButton.setVisible(false);
         currentNumMovesDisplay.setVisible(false);
+        currentNumMovesLabel.setVisible(false);
         createNewMazeButton.setVisible(true);
         resetCurrentMazeButton.setVisible(true);
         autoSolveButton.setVisible(true);
@@ -224,6 +233,7 @@ public class GUI extends javax.swing.JFrame{
     private javax.swing.JButton autoSolveButton;
     private javax.swing.JButton createNewMazeButton;
     private javax.swing.JTextField currentNumMovesDisplay;
+    private javax.swing.JLabel currentNumMovesLabel;
     private javax.swing.JTextField field;
     private javax.swing.JButton giveUpButton;
     private javax.swing.JButton manualSolveButton;
@@ -271,5 +281,8 @@ public class GUI extends javax.swing.JFrame{
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/bull.png")));
     }
     
+    public void updateCurrentNumMoves(){
+        currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
+    }
     
 }

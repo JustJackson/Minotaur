@@ -71,6 +71,7 @@ class MazeRunner {
     }
     public void manualSolve(){
         ms = new ManualSolver(this);
+        currentNumMoves = 0;
     }
     /**
      * newValue: 1 = START, 0 = not visited, 2 = wall, 3 = visited, 4 = current location, 9 = END
@@ -106,6 +107,10 @@ class MazeRunner {
         return currentNumMoves;
     }
     public void resetCurrentNumMoves(){
+        currentNumMoves = 0;
+    }
+    public void displayWinMessage(){
+        gui.displayWinMessage();
         currentNumMoves = 0;
     }
     

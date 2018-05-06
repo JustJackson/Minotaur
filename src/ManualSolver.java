@@ -59,7 +59,7 @@ public class ManualSolver implements KeyListener {
         System.out.println("Attempting to move to (" + x + ", " + y + ")");
         if (mazeRunner.getCell(x, y) == 9){
             System.out.println("YOU WIN!");
-            System.exit(0);
+            mazeRunner.displayWinMessage();
         }
         if (mazeRunner.getCell(x, y) != 2){
             mazeRunner.setCell(x, y, 4);

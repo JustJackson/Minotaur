@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -73,6 +74,11 @@ public class GUI extends javax.swing.JFrame{
         });
 
         resetCurrentMazeButton.setText("Reset Current Maze");
+        resetCurrentMazeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetCurrentMazeButtonActionPerformed(evt);
+            }
+        });
 
         autoSolveButton.setText("Auto Solve");
 
@@ -163,6 +169,8 @@ public class GUI extends javax.swing.JFrame{
 
     private void createNewMazeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNewMazeButtonActionPerformed
         // TODO add your handling code here:
+        mazeRunner.createNewMaze();
+        repaint();
     }//GEN-LAST:event_createNewMazeButtonActionPerformed
 
     private void manualSolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualSolveButtonActionPerformed
@@ -191,7 +199,6 @@ public class GUI extends javax.swing.JFrame{
         resetCurrentMazeButton.setVisible(true);
         autoSolveButton.setVisible(true);
         manualSolveButton.setVisible(true);
-        mazeRunner.resetMaze();
         repaint();
         OuterFrame.requestFocus();
         
@@ -200,6 +207,12 @@ public class GUI extends javax.swing.JFrame{
     private void currentNumMovesDisplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_currentNumMovesDisplayActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_currentNumMovesDisplayActionPerformed
+
+    private void resetCurrentMazeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetCurrentMazeButtonActionPerformed
+        // TODO add your handling code here:
+        mazeRunner.resetCurrentMaze();
+        repaint();
+    }//GEN-LAST:event_resetCurrentMazeButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,6 +296,10 @@ public class GUI extends javax.swing.JFrame{
     
     public void updateCurrentNumMoves(){
         currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
+    }
+    
+    public void displayWinMessage(){
+        JOptionPane.showMessageDialog(rootPane, "Congratulations, You've Won!  Total Number of Moves: " + mazeRunner.getCurrentNumMoves());
     }
     
 }

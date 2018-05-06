@@ -66,6 +66,7 @@ public class ManualSolver implements KeyListener {
             mazeRunner.setCell(currentX, currentY, 3);
             currentX = x;
             currentY = y;
+            mazeRunner.incrementCurrentNumMoves();
             mazeRunner.updateDisplay();
         }else
             System.out.println("Invalid move: Wall");

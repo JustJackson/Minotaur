@@ -61,7 +61,9 @@
                   <Component id="createNewMazeButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="resetCurrentMazeButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="253" max="32767" attributes="0"/>
+                  <EmptySpace pref="3425" max="32767" attributes="0"/>
+                  <Component id="currentNumMovesDisplay" min="-2" pref="44" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="giveUpButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="field" min="-2" max="-2" attributes="0"/>
@@ -85,7 +87,10 @@
                           <Component id="manualSolveButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="field" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="giveUpButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                          <Component id="giveUpButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="currentNumMovesDisplay" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -139,6 +144,17 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="giveUpButton.setVisible(false);"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JTextField" name="currentNumMovesDisplay">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="currentNumMovesDisplayActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="currentNumMovesDisplay.setVisible(false);&#xd;&#xa;"/>
           </AuxValues>
         </Component>
       </SubComponents>

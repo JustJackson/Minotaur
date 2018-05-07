@@ -11,8 +11,7 @@ import java.util.Random;
  */
 public class randomMouse implements AutoSolver {
 
-    MazeRunner mazeRunner;
-    int[][] maze;
+    int[][] maze = MazeRunner.maze;
     int self_x = 0;
     int self_y = 0;
     int moveCounter = 0;
@@ -24,16 +23,35 @@ public class randomMouse implements AutoSolver {
 
     int currentDirection = North;
 
+    int length = 0;
+    int width = 0;
+
     boolean Collision() {
         switch (currentDirection) {
             case North:
-                return maze[self_x][self_y - 1] == MazeRunner.WALL;
+                if (self_y < 1) {
+                    return true;
+                } else {
+                    return maze[self_x][self_y - 1] == MazeRunner.WALL;
+                }
             case South:
-                return maze[self_x][self_y + 1] == MazeRunner.WALL;
+                if (self_y > length - 1) {
+                    return true;
+                } else {
+                    return maze[self_x][self_y + 1] == MazeRunner.WALL;
+                }
             case East:
-                return maze[self_x + 1][self_y] == MazeRunner.WALL;
+                if (self_x > width - 1) {
+                    return true;
+                } else {
+                    return maze[self_x + 1][self_y] == MazeRunner.WALL;
+                }
             case West:
-                return maze[self_x - 1][self_y] == MazeRunner.WALL;
+                if (self_x < 1) {
+                    return true;
+                } else {
+                    return maze[self_x - 1][self_y] == MazeRunner.WALL;
+                }
             default:
                 System.out.println("We should never get here.");
                 return true;
@@ -79,11 +97,16 @@ public class randomMouse implements AutoSolver {
     }
 
     public void Solve(int[][] Maze) {
-        self_x = 0;
-        self_y = 0;
-        //Waiting for MazeRunner to be built and how we're going to mess with
-        //Imports, in future, will change to const GOAL state.
-        while (!(Maze[self_x][self_y] == 3)) {
+        for (int i = 0; i < maze.length - 1; i++) {
+            for (int j = 0; j < maze[0].length - 1; j++) {
+                if (maze[i][j] == MazeRunner.END) {
+                    self_x = j;
+                    self_y = i;
+                    break;
+                }
+            }
+        }
+        while (!(Maze[self_x][self_y] == MazeRunner.END)) {
             if (Collision()) {
                 changeDirection();
             } else {
@@ -93,5 +116,3 @@ public class randomMouse implements AutoSolver {
 
     }
 }
-
-

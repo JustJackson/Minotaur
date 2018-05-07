@@ -8,10 +8,10 @@ import java.util.Random;
 public class MazeBuilder {
 
     private int[][] maze;
-    private int width;
-    private int length;
-    public int currentX;
-    public int currentY;
+    public static int width;
+    public static int length;
+    public static int currentX;
+    public static int currentY;
 //
 //    static final int NOTVISITED = 0;
 //    static final int START = 1;

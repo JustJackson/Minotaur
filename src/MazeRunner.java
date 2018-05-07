@@ -10,7 +10,7 @@
  */
 class MazeRunner {
     
-    int[][] maze;
+    public static int[][] maze;
     ManualSolver ms;
     GUI gui;
     MazeBuilder mazeBuilder;
@@ -48,6 +48,10 @@ class MazeRunner {
         mazeBuilder = new MazeBuilder();
         mazeBuilder.generateMaze();
         maze = mazeBuilder.returnMaze();
+        AutoSolver solve = autoSolver();
+        solve.Solve(maze);
+        
+        
 
     }
 
@@ -108,5 +112,21 @@ class MazeRunner {
     public void resetCurrentNumMoves(){
         currentNumMoves = 0;
     }
-    
-}
+    public AutoSolver autoSolver(){        
+       if (MazeBuilder.width * MazeBuilder.length <= 66){
+           System.out.println("Mouse");
+           return new randomMouse();
+        }
+       if (MazeBuilder.width * MazeBuilder.length <= 132){
+           System.out.println("Wall");
+           return new randomMouse();
+        }
+       if (MazeBuilder.width * MazeBuilder.length >= 133){
+           System.out.println("Pledge");
+           return new Pledge();
+        }
+       return new Pledge();   
+    }
+    }
+
+

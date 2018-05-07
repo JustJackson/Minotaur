@@ -8,7 +8,13 @@
  *
  * @author jackson
  */
-public interface AutoSolver {
+public class WallFollower implements AutoSolver {
 
-    int[][] Solve(int[][] Maze);
+    @Override
+    public int[][] Solve(int[][] Maze) {
+        int[][] thing = {};
+        return thing;
+     
+    }
+    
 }

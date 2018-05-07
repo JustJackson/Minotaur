@@ -10,7 +10,7 @@
  */
 class MazeRunner {
     
-    int[][] maze;
+    public static int[][] maze;
     ManualSolver ms;
     GUI gui;
     MazeBuilder mazeBuilder;
@@ -32,6 +32,7 @@ class MazeRunner {
     */
     public MazeRunner(){
         mazeBuilder = new MazeBuilder();
+
         createNewMaze();
         currentNumMoves = 0;
     }
@@ -87,6 +88,7 @@ class MazeRunner {
     public void resetCurrentNumMoves(){
         currentNumMoves = 0;
     }
+
     public void displayWinMessage(){
         gui.displaySolvedMessage();
         currentNumMoves = 0;

@@ -13,8 +13,7 @@ import java.util.logging.Logger;
  */
 public class randomMouse implements AutoSolver {
 
-    MazeRunner mazeRunner;
-    int[][] maze;
+    int[][] maze = MazeRunner.maze;
     int self_x = 0;
     int self_y = 0;
     int moveCounter = 0;
@@ -29,6 +28,7 @@ public class randomMouse implements AutoSolver {
         this.currentDirection = North;
         this.mazeRunner = mazeRunner;
 
+<<<<<<< HEAD
     }
     boolean Collision() {
         switch (currentDirection) {
@@ -40,6 +40,37 @@ public class randomMouse implements AutoSolver {
                 return maze[self_y][self_x+1] == 0;
             case West:
                 return maze[self_y][self_x+1] == 0;
+=======
+    int length = 0;
+    int width = 0;
+
+    boolean Collision() {
+        switch (currentDirection) {
+            case North:
+                if (self_y < 1) {
+                    return true;
+                } else {
+                    return maze[self_x][self_y - 1] == MazeRunner.WALL;
+                }
+            case South:
+                if (self_y > length - 1) {
+                    return true;
+                } else {
+                    return maze[self_x][self_y + 1] == MazeRunner.WALL;
+                }
+            case East:
+                if (self_x > width - 1) {
+                    return true;
+                } else {
+                    return maze[self_x + 1][self_y] == MazeRunner.WALL;
+                }
+            case West:
+                if (self_x < 1) {
+                    return true;
+                } else {
+                    return maze[self_x - 1][self_y] == MazeRunner.WALL;
+                }
+>>>>>>> 36bb0f1ec1e5d9846aae7d63d574548a1505e5c7
             default:
                 System.out.println("We should never get here.");
                 return true;
@@ -59,7 +90,7 @@ public class randomMouse implements AutoSolver {
             case 2:
                 currentDirection = South;
                 break;
-            case West:
+            case 3:
                 currentDirection = West;
                 break;
         }
@@ -67,6 +98,7 @@ public class randomMouse implements AutoSolver {
 
     void Move() {
         moveCounter++;
+        maze[self_x][self_y] = MazeRunner.VISITED;
         switch (currentDirection) {
             case North:
                 mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
@@ -92,19 +124,31 @@ public class randomMouse implements AutoSolver {
     }
 
     public void Solve(int[][] Maze) {
+<<<<<<< HEAD
         for (int i=0; i< mazeRunner.getMaze().length; i++){
             for (int j=0; j<mazeRunner.getMaze()[i].length; j++){
                 if (mazeRunner.getMaze()[i][j] == MazeRunner.START || mazeRunner.getMaze()[i][j] == MazeRunner.CURRENTLOCATION){
                     self_x = j;
                     self_y = i;
                     mazeRunner.setCell(self_x, self_y, 4);
+=======
+        for (int i = 0; i < maze.length - 1; i++) {
+            for (int j = 0; j < maze[0].length - 1; j++) {
+                if (maze[i][j] == MazeRunner.END) {
+                    self_x = j;
+                    self_y = i;
+>>>>>>> 36bb0f1ec1e5d9846aae7d63d574548a1505e5c7
                     break;
                 }
             }
         }
+<<<<<<< HEAD
         //Waiting for MazeRunner to be built and how we're going to mess with
         //Imports, in future, will change to const GOAL state.
         while (!(Maze[self_y][self_x] == MazeRunner.END)) {
+=======
+        while (!(Maze[self_x][self_y] == MazeRunner.END)) {
+>>>>>>> 36bb0f1ec1e5d9846aae7d63d574548a1505e5c7
             if (Collision()) {
                 changeDirection();
             } else {
@@ -119,5 +163,3 @@ public class randomMouse implements AutoSolver {
 
     }
 }
-
-

@@ -103,4 +103,8 @@ class MazeRunner {
         maze = newMaze;
     }
     
+    public void autoSolve(){
+        
+    }
+    
 }

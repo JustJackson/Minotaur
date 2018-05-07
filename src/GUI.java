@@ -81,6 +81,11 @@ public class GUI extends javax.swing.JFrame{
         });
 
         autoSolveButton.setText("Auto Solve");
+        autoSolveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autoSolveButtonActionPerformed(evt);
+            }
+        });
 
         manualSolveButton.setText("Manual Solve");
         manualSolveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -203,6 +208,19 @@ public class GUI extends javax.swing.JFrame{
         // TODO add your handling code here:
         mazeRunner.resetCurrentMaze();
     }//GEN-LAST:event_resetCurrentMazeButtonActionPerformed
+
+    private void autoSolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoSolveButtonActionPerformed
+        // TODO add your handling code here:
+        mazeRunner.autoSolve();
+        currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
+        currentNumMovesDisplay.setVisible(true);
+        currentNumMovesLabel.setVisible(true);
+        repaint();
+        createNewMazeButton.setVisible(false);
+        resetCurrentMazeButton.setVisible(false);
+        autoSolveButton.setVisible(false);
+        manualSolveButton.setVisible(false);
+    }//GEN-LAST:event_autoSolveButtonActionPerformed
 
     /**
      * @param args the command line arguments

@@ -136,8 +136,30 @@ public class MazeBuilder {
             maze[j][0] = MazeRunner.WALL;
             maze[j][length-1] = MazeRunner.WALL;
         }
-        currentX = numGenerator.nextInt(width);
-        currentY = numGenerator.nextInt(length);
+        boolean llSwitch = numGenerator.nextBoolean();
+        //Initial Cooridnate is on the X axis.
+        if (llSwitch){
+            currentX = numGenerator.nextInt(width);
+            boolean topOrBottom = numGenerator.nextBoolean();
+            if (topOrBottom){
+                currentY = 0;
+            }
+            else{
+                currentY = length-1;
+            }
+        }
+        else{
+            currentY = numGenerator.nextInt(length);
+            boolean leftOrRight = numGenerator.nextBoolean();
+            if (leftOrRight){
+                currentX = 0;
+            }
+            else{
+                currentX = width-1;
+            }
+        }
+//        currentX = numGenerator.nextInt(width);
+//        currentY = numGenerator.nextInt(length);
         randomWalk();
         initalizeMaze();
         prettyPrint();

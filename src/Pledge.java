@@ -112,7 +112,7 @@ public class Pledge implements AutoSolver{
         }
     }
 
-    void Solve(int[][] Maze, int x, int y) {
+    int[][] Solve(int[][] Maze, int x, int y) {
         self_x = x;
         self_y = y;
         setPreferredDirection();
@@ -125,11 +125,11 @@ public class Pledge implements AutoSolver{
                 Move();
             }
         }
-
+        return maze;
     }
 
     @Override
-    public void Solve(int[][] Maze) {
+    public int[][] Solve(int[][] Maze) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

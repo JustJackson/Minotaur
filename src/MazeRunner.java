@@ -48,8 +48,8 @@ class MazeRunner {
         mazeBuilder = new MazeBuilder();
         mazeBuilder.generateMaze();
         maze = mazeBuilder.returnMaze();
-        AutoSolver solve = autoSolver();
-        solve.Solve(maze);
+//        AutoSolver solve = autoSolver();
+//        solve.Solve(maze);
         
         
 

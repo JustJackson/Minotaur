@@ -29,25 +29,25 @@ public class randomMouse implements AutoSolver {
     boolean Collision() {
         switch (currentDirection) {
             case North:
-                if (self_y < 1) {
+                if (self_y <= 1) {
                     return true;
                 } else {
                     return maze[self_x][self_y - 1] == MazeRunner.WALL;
                 }
             case South:
-                if (self_y > length - 1) {
+                if (self_y >= length - 1) {
                     return true;
                 } else {
                     return maze[self_x][self_y + 1] == MazeRunner.WALL;
                 }
             case East:
-                if (self_x > width - 1) {
+                if (self_x >= width - 1) {
                     return true;
                 } else {
                     return maze[self_x + 1][self_y] == MazeRunner.WALL;
                 }
             case West:
-                if (self_x < 1) {
+                if (self_x <= 1) {
                     return true;
                 } else {
                     return maze[self_x - 1][self_y] == MazeRunner.WALL;
@@ -96,9 +96,9 @@ public class randomMouse implements AutoSolver {
         }
     }
 
-    public void Solve(int[][] Maze) {
-        for (int i = 0; i < maze.length - 1; i++) {
-            for (int j = 0; j < maze[0].length - 1; j++) {
+    public int[][] Solve(int[][] Maze) {
+        for (int i = 0; i <= maze.length - 1; i++) {
+            for (int j = 0; j <= maze[0].length - 1; j++) {
                 if (maze[i][j] == MazeRunner.END) {
                     self_x = j;
                     self_y = i;
@@ -107,12 +107,13 @@ public class randomMouse implements AutoSolver {
             }
         }
         while (!(Maze[self_x][self_y] == MazeRunner.END)) {
-            if (Collision()) {
-                changeDirection();
-            } else {
+            changeDirection();
+            if (!Collision()) {
                 Move();
             }
         }
+        
+        return maze;
 
     }
 }

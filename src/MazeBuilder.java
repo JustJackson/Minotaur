@@ -27,67 +27,77 @@ public class MazeBuilder {
         boolean result = false;
         switch (Direction) {
             case 'N':
-                result = !(y - 1 < 1);
+                result = !(y - 1 <= 1);
                 break;
             case 'S':
-                result = !(y + 1 < length);
+                result = !(y + 1 <= length+1);
                 break;
             case 'E':
-                result = !(x + 1 < width);
+                result = !(x + 1 <= width+1);
                 break;
             case 'W':
-                result = !(x - 1 < 1);
+                result = !(x - 1 <= 1);
                 break;
         }
         return result;
     }
 
     void randomWalk() {
+        System.out.printf("W: %d L: %d\n", width, length);
+        System.out.printf("X: %d Y: %d\n", currentX, currentY);
         maze[currentX][currentY] = MazeRunner.START;
         boolean exitCondition = false;
         Random numGenerator = new Random();
-        int minDistance = (width)/2;
+        int minDistance = ((width+length)/5);
         int counter = 0;
+        int loopBreaker = 0;
         while (!exitCondition) {
-            if (maze[currentX][currentY] == nonInitialized) {
+            System.out.println(loopBreaker);
+            if (loopBreaker > 50){
+                generateMaze();
+                break;
+            }
+            if (maze[currentX][currentY] == nonInitialized || maze[currentX][currentY] == MazeRunner.WALL ) {
                 maze[currentX][currentY] = MazeRunner.NOTVISITED;
             }
             // 0 through 20. (21 Total.)
             int choice = numGenerator.nextInt(21);
             //We could make this just a break and have an unlimited for 
             //but I think this is better for clarity.
-            if (choice == 0 && counter > minDistance) {
+            if (choice == 0 && counter >= minDistance) {
                 maze[currentX][currentY] = MazeRunner.END;
                 exitCondition = true;
-                continue;
             }
             if (choice > 1 && choice <= 5) {
+                System.out.println("North");
                 if (boundCheck('N', currentX, currentY)) {
                     counter++;
                     currentY--;
-                    continue;
                 }
+                loopBreaker++;
+
             }
             if (choice > 5 && choice <= 10) {
                 if (boundCheck('S', currentX, currentY)) {
                     counter++;
                     currentY++;
-                    continue;
                 }
+                loopBreaker++;
             }
             if (choice > 10 && choice <= 15) {
                 if (boundCheck('E', currentX, currentY)) {
                     counter++;
                     currentX++;
-                    continue;
                 }
+                loopBreaker++;
             }
             if (choice > 15 && choice <= 20) {
                 if (boundCheck('W', currentX, currentY)) {
                     counter++;
                     currentX--;
-                    continue;
                 }
+                loopBreaker++;
+
             }
             //If we get here we assume that we got a direction but it was 
             //not valid
@@ -126,8 +136,8 @@ public class MazeBuilder {
             maze[j][0] = MazeRunner.WALL;
             maze[j][length-1] = MazeRunner.WALL;
         }
-        currentX = numGenerator.nextInt(width-1)+1;
-        currentY = numGenerator.nextInt(length-1)+1;
+        currentX = numGenerator.nextInt(width);
+        currentY = numGenerator.nextInt(length);
         randomWalk();
         initalizeMaze();
         prettyPrint();

@@ -27,13 +27,13 @@ public class randomMouse implements AutoSolver {
     boolean Collision() {
         switch (currentDirection) {
             case North:
-                return maze[self_x][self_y - 1] == 0;
+                return maze[self_x][self_y - 1] == MazeRunner.WALL;
             case South:
-                return maze[self_x][self_y + 1] == 0;
+                return maze[self_x][self_y + 1] == MazeRunner.WALL;
             case East:
-                return maze[self_x + 1][self_y] == 0;
+                return maze[self_x + 1][self_y] == MazeRunner.WALL;
             case West:
-                return maze[self_x - 1][self_y] == 0;
+                return maze[self_x - 1][self_y] == MazeRunner.WALL;
             default:
                 System.out.println("We should never get here.");
                 return true;
@@ -53,7 +53,7 @@ public class randomMouse implements AutoSolver {
             case 2:
                 currentDirection = South;
                 break;
-            case West:
+            case 3:
                 currentDirection = West;
                 break;
         }
@@ -61,6 +61,7 @@ public class randomMouse implements AutoSolver {
 
     void Move() {
         moveCounter++;
+        maze[self_x][self_y] = MazeRunner.VISITED;
         switch (currentDirection) {
             case North:
                 self_y -= 1;

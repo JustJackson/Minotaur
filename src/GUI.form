@@ -61,7 +61,9 @@
                   <Component id="createNewMazeButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="resetCurrentMazeButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="3425" max="32767" attributes="0"/>
+                  <EmptySpace pref="3288" max="32767" attributes="0"/>
+                  <Component id="currentNumMovesLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="currentNumMovesDisplay" min="-2" pref="44" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="giveUpButton" min="-2" max="-2" attributes="0"/>
@@ -77,7 +79,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace pref="580" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="1" groupAlignment="3" attributes="0">
@@ -90,6 +92,7 @@
                       <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                           <Component id="giveUpButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="currentNumMovesDisplay" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="currentNumMovesLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -110,11 +113,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Reset Current Maze"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetCurrentMazeButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="autoSolveButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Auto Solve"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="autoSolveButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="manualSolveButton">
           <Properties>
@@ -155,6 +164,14 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="currentNumMovesDisplay.setVisible(false);&#xd;&#xa;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="currentNumMovesLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Current Number Of Moves: "/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="currentNumMovesLabel.setVisible(false);&#xd;&#xa;"/>
           </AuxValues>
         </Component>
       </SubComponents>

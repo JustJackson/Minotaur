@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,13 +17,16 @@ public class randomMouse implements AutoSolver {
     int self_x = 0;
     int self_y = 0;
     int moveCounter = 0;
+    int currentDirection;
 
     final int North = 0;
     final int East = 1;
     final int South = 2;
     final int West = 3;
 
-    int currentDirection = North;
+    public randomMouse(MazeRunner mazeRunner){
+        this.currentDirection = North;
+        this.mazeRunner = mazeRunner;
 
     int length = 0;
     int width = 0;
@@ -52,6 +57,7 @@ public class randomMouse implements AutoSolver {
                 } else {
                     return maze[self_x - 1][self_y] == MazeRunner.WALL;
                 }
+
             default:
                 System.out.println("We should never get here.");
                 return true;
@@ -82,16 +88,24 @@ public class randomMouse implements AutoSolver {
         maze[self_x][self_y] = MazeRunner.VISITED;
         switch (currentDirection) {
             case North:
+                mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
                 self_y -= 1;
+                mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
                 break;
             case South:
+                mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
                 self_y += 1;
+                mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
                 break;
             case East:
+                mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
                 self_x += 1;
+                mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
                 break;
             case West:
+                mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
                 self_x -= 1;
+                mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
                 break;
         }
     }
@@ -102,6 +116,7 @@ public class randomMouse implements AutoSolver {
                 if (maze[i][j] == MazeRunner.END) {
                     self_x = j;
                     self_y = i;
+
                     break;
                 }
             }
@@ -109,7 +124,14 @@ public class randomMouse implements AutoSolver {
         while (!(Maze[self_x][self_y] == MazeRunner.END)) {
             changeDirection();
             if (!Collision()) {
+
+
                 Move();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(randomMouse.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         

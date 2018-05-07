@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -53,6 +54,8 @@ public class GUI extends javax.swing.JFrame{
         field = new javax.swing.JTextField();
         giveUpButton = new javax.swing.JButton();
         currentNumMovesDisplay = new javax.swing.JTextField();
+        currentNumMovesLabel = new javax.swing.JLabel();
+        currentNumMovesLabel.setVisible(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Minotaur");
@@ -71,8 +74,18 @@ public class GUI extends javax.swing.JFrame{
         });
 
         resetCurrentMazeButton.setText("Reset Current Maze");
+        resetCurrentMazeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetCurrentMazeButtonActionPerformed(evt);
+            }
+        });
 
         autoSolveButton.setText("Auto Solve");
+        autoSolveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autoSolveButtonActionPerformed(evt);
+            }
+        });
 
         manualSolveButton.setText("Manual Solve");
         manualSolveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +112,8 @@ public class GUI extends javax.swing.JFrame{
             }
         });
 
+        currentNumMovesLabel.setText("Current Number Of Moves: ");
+
         javax.swing.GroupLayout OuterFrameLayout = new javax.swing.GroupLayout(OuterFrame);
         OuterFrame.setLayout(OuterFrameLayout);
         OuterFrameLayout.setHorizontalGroup(
@@ -108,7 +123,9 @@ public class GUI extends javax.swing.JFrame{
                 .addComponent(createNewMazeButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(resetCurrentMazeButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3425, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3288, Short.MAX_VALUE)
+                .addComponent(currentNumMovesLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(currentNumMovesDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(giveUpButton)
@@ -133,7 +150,8 @@ public class GUI extends javax.swing.JFrame{
                         .addComponent(field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OuterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(giveUpButton)
-                        .addComponent(currentNumMovesDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(currentNumMovesDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(currentNumMovesLabel)))
                 .addContainerGap())
         );
 
@@ -156,6 +174,8 @@ public class GUI extends javax.swing.JFrame{
 
     private void createNewMazeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNewMazeButtonActionPerformed
         // TODO add your handling code here:
+        mazeRunner.createNewMaze();
+        repaint();
     }//GEN-LAST:event_createNewMazeButtonActionPerformed
 
     private void manualSolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualSolveButtonActionPerformed
@@ -164,6 +184,7 @@ public class GUI extends javax.swing.JFrame{
         field.addKeyListener(mazeRunner.ms);
         currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
         currentNumMovesDisplay.setVisible(true);
+        currentNumMovesLabel.setVisible(true);
         giveUpButton.setVisible(true);
         repaint();
         field.requestFocus();
@@ -175,22 +196,31 @@ public class GUI extends javax.swing.JFrame{
 
     private void giveUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_giveUpButtonActionPerformed
         // TODO add your handling code here:
-        field.removeKeyListener(mazeRunner.ms);
-        giveUpButton.setVisible(false);
-        currentNumMovesDisplay.setVisible(false);
-        createNewMazeButton.setVisible(true);
-        resetCurrentMazeButton.setVisible(true);
-        autoSolveButton.setVisible(true);
-        manualSolveButton.setVisible(true);
-        mazeRunner.resetMaze();
-        repaint();
-        OuterFrame.requestFocus();
+        setBaseState();
         
     }//GEN-LAST:event_giveUpButtonActionPerformed
 
     private void currentNumMovesDisplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_currentNumMovesDisplayActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_currentNumMovesDisplayActionPerformed
+
+    private void resetCurrentMazeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetCurrentMazeButtonActionPerformed
+        // TODO add your handling code here:
+        mazeRunner.resetCurrentMaze();
+    }//GEN-LAST:event_resetCurrentMazeButtonActionPerformed
+
+    private void autoSolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoSolveButtonActionPerformed
+        // TODO add your handling code here:
+        mazeRunner.autoSolve();
+        currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
+        currentNumMovesDisplay.setVisible(true);
+        currentNumMovesLabel.setVisible(true);
+        repaint();
+        createNewMazeButton.setVisible(false);
+        resetCurrentMazeButton.setVisible(false);
+        autoSolveButton.setVisible(false);
+        manualSolveButton.setVisible(false);
+    }//GEN-LAST:event_autoSolveButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,6 +254,7 @@ public class GUI extends javax.swing.JFrame{
     private javax.swing.JButton autoSolveButton;
     private javax.swing.JButton createNewMazeButton;
     private javax.swing.JTextField currentNumMovesDisplay;
+    private javax.swing.JLabel currentNumMovesLabel;
     private javax.swing.JTextField field;
     private javax.swing.JButton giveUpButton;
     private javax.swing.JButton manualSolveButton;
@@ -238,22 +269,22 @@ public class GUI extends javax.swing.JFrame{
         g.translate(225, 50);
         int [][] currentMaze = mazeRunner.getMaze();
         for (int row = 0; row < currentMaze.length; row++) {
-            for (int col = 0; col < currentMaze[0].length; col++) {
+            for (int col = 0; col < currentMaze[row].length; col++) {
                 Color color;
                 switch (currentMaze[row][col]) {
-                    case 1:
+                    case MazeRunner.START:
                         color = Color.BLUE;
                         break;
-                    case 2:
+                    case MazeRunner.WALL:
                         color = Color.BLACK;
                         break;
-                    case 3:
+                    case MazeRunner.VISITED:
                         color = Color.YELLOW;
                         break;
-                    case 4:
+                    case MazeRunner.CURRENTLOCATION:
                         color = Color.RED;
                         break;
-                    case 9:
+                    case MazeRunner.END:
                         color = Color.GREEN;
                         break;
                     default:
@@ -271,5 +302,28 @@ public class GUI extends javax.swing.JFrame{
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/bull.png")));
     }
     
+    public void updateCurrentNumMoves(){
+        currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
+    }
+    
+
+    public void displaySolvedMessage(){
+        currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
+        JOptionPane.showMessageDialog(rootPane, "Congratulations, You've solved the maze!  Total Number of Moves: " + mazeRunner.getCurrentNumMoves());
+        setBaseState();
+    }
+    
+    private void setBaseState(){
+        field.removeKeyListener(mazeRunner.ms);
+        giveUpButton.setVisible(false);
+        currentNumMovesDisplay.setVisible(false);
+        currentNumMovesLabel.setVisible(false);
+        createNewMazeButton.setVisible(true);
+        resetCurrentMazeButton.setVisible(true);
+        autoSolveButton.setVisible(true);
+        manualSolveButton.setVisible(true);
+        repaint();
+        OuterFrame.requestFocus();
+    }
     
 }

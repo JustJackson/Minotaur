@@ -31,49 +31,16 @@ class MazeRunner {
     This is a dummy maze until we get a functioning MazeBuilder
     */
     public MazeRunner(){
-        int[][] defaultMaze
-            = {
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                {2, 1, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 2},
-                {2, 0, 2, 0, 0, 0, 2, 0, 2, 2, 2, 0, 2},
-                {2, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 2},
-                {2, 0, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 2},
-                {2, 0, 2, 0, 2, 2, 2, 0, 2, 0, 0, 0, 2},
-                {2, 0, 2, 0, 2, 0, 0, 0, 2, 2, 2, 0, 2},
-                {2, 0, 2, 0, 2, 2, 2, 0, 2, 9, 2, 0, 2},
-                {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2},
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
-            };
-        currentNumMoves = 0;
         mazeBuilder = new MazeBuilder();
-        mazeBuilder.generateMaze();
-        maze = mazeBuilder.returnMaze();
-//        AutoSolver solve = autoSolver();
-//        solve.Solve(maze);
-        
-        
 
+        createNewMaze();
+        currentNumMoves = 0;
     }
 
     public int[][] getMaze() {
         return maze;
     }
-    public void resetMaze(){
-        int[][] defaultMaze
-            = {
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                {2, 1, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 2},
-                {2, 0, 2, 0, 0, 0, 2, 0, 2, 2, 2, 0, 2},
-                {2, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 2},
-                {2, 0, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 2},
-                {2, 0, 2, 0, 2, 2, 2, 0, 2, 0, 0, 0, 2},
-                {2, 0, 2, 0, 2, 0, 0, 0, 2, 2, 2, 0, 2},
-                {2, 0, 2, 0, 2, 2, 2, 0, 2, 9, 2, 0, 2},
-                {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2},
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
-            };
-        maze = defaultMaze;
-    }
+    
     public void manualSolve(){
         ms = new ManualSolver(this);
     }
@@ -86,21 +53,30 @@ class MazeRunner {
     public void setCell(int cellX, int cellY, int newValue){
         maze[cellY][cellX] = newValue;
     }
+    
     public int getCell(int cellX, int cellY){
         return maze[cellY][cellX];
     }
+    
     public void attachGUI(GUI gui){
         this.gui = gui;
     }
+    
     public void updateDisplay(){
+        gui.updateCurrentNumMoves();
         gui.repaint();
     }
+    
     public void createNewMaze(){
-        maze = mazeBuilder.returnMaze();
+        mazeBuilder.generateMaze();
+        replaceMaze();
+        currentNumMoves = 0;
     }
     public void resetCurrentMaze(){
-        mazeBuilder.generateMaze();
-        maze = mazeBuilder.returnMaze();
+        
+        replaceMaze();
+        currentNumMoves = 0;
+        gui.repaint();
     }
     
     public void incrementCurrentNumMoves(){
@@ -112,21 +88,25 @@ class MazeRunner {
     public void resetCurrentNumMoves(){
         currentNumMoves = 0;
     }
-    public AutoSolver autoSolver(){        
-       if (MazeBuilder.width * MazeBuilder.length <= 66){
-           System.out.println("Mouse");
-           return new randomMouse();
-        }
-       if (MazeBuilder.width * MazeBuilder.length <= 132){
-           System.out.println("Wall");
-           return new randomMouse();
-        }
-       if (MazeBuilder.width * MazeBuilder.length >= 133){
-           System.out.println("Pledge");
-           return new Pledge();
-        }
-       return new Pledge();   
-    }
-    }
 
-
+    public void displayWinMessage(){
+        gui.displaySolvedMessage();
+        currentNumMoves = 0;
+        resetCurrentMaze();
+        resetCurrentMaze();
+    }
+    private void replaceMaze(){
+        int[][]  newMaze = new int[mazeBuilder.returnMaze().length][mazeBuilder.returnMaze()[0].length];
+        for (int i=0; i<mazeBuilder.returnMaze().length; i++){
+            for (int j=0; j<mazeBuilder.returnMaze()[i].length; j++){
+                newMaze[i][j] = mazeBuilder.returnMaze()[i][j];
+            }
+        }
+        maze = newMaze;
+    }
+    
+    public void autoSolve(){
+        
+    }
+    
+}

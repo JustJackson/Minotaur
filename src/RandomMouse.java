@@ -82,6 +82,11 @@ public class RandomMouse implements AutoSolver {
 
     private void attemptMove(int x, int y) {
         System.out.println("Attempting to move to (" + x + ", " + y + ")");
+        if (y >= mazeRunner.getMaze()[0].length || y =< 0 || x >= mazeRunner.getMaze().length || x =< 0){
+            System.out.println("Falling of the earth.");
+            changeDirection();
+            solve();
+        }
         if (mazeRunner.getCell(x, y) == MazeRunner.END) {
             moveCurrentLocation(x, y);
             mazeRunner.displayWinMessage();

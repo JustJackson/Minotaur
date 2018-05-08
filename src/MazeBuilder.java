@@ -48,7 +48,7 @@ public class MazeBuilder {
         maze[currentX][currentY] = MazeRunner.START;
         boolean exitCondition = false;
         Random numGenerator = new Random();
-        int minDistance = ((width + length) / 3);
+        int minDistance = ((width+length)/2)/2;
         int counter = 0;
         int loopBreaker = 0;
         while (!exitCondition) {
@@ -61,15 +61,15 @@ public class MazeBuilder {
                 maze[currentX][currentY] = MazeRunner.NOTVISITED;
             }
             // 0 through 20. (21 Total.)
-            int choice = numGenerator.nextInt(21);
+            int choice = numGenerator.nextInt(41);
             //We could make this just a break and have an unlimited for 
             //but I think this is better for clarity.
-            if (choice == 0 && (currentX == 1 || currentY == 1 || currentX == width-1 || currentY == length-1) && counter >= minDistance) {
+            if (choice == 0 && counter > minDistance) {
                 maze[currentX][currentY] = MazeRunner.END;
                 exitCondition = true;
             }
-            if (choice > 1 && choice <= 5) {
-//                System.out.println("North");
+            if (choice > 1 && choice <= 10) {
+                System.out.println("North");
                 if (boundCheck('N', currentX, currentY)) {
                     counter++;
                     currentY--;
@@ -77,24 +77,24 @@ public class MazeBuilder {
                 loopBreaker++;
 
             }
-            if (choice > 5 && choice <= 10) {
-//                System.out.println("South");
+            if (choice > 10 && choice <= 20) {
+                System.out.println("South");
                 if (boundCheck('S', currentX, currentY)) {
                     counter++;
                     currentY++;
                 }
                 loopBreaker++;
             }
-            if (choice > 10 && choice <= 15) {
-//                System.out.println("East");
+            if (choice > 20 && choice <= 30) {
+                System.out.println("East");
                 if (boundCheck('E', currentX, currentY)) {
                     counter++;
                     currentX++;
                 }
                 loopBreaker++;
             }
-            if (choice > 15 && choice <= 20) {
-//                System.out.println("West");
+            if (choice > 30 && choice <= 40) {
+                System.out.println("West");
                 if (boundCheck('W', currentX, currentY)) {
                     counter++;
                     currentX--;

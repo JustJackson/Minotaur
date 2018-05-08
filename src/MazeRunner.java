@@ -12,6 +12,7 @@ class MazeRunner {
     
     int[][] maze;
     ManualSolver ms;
+    AutoSolver as;
     GUI gui;
     MazeBuilder mazeBuilder;
     
@@ -104,7 +105,7 @@ class MazeRunner {
     }
     
     public void autoSolve(){
-        
+        as = new RandomMouse(this);
     }
     
 }

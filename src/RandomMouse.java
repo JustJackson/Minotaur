@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  *
  * @author jackson
  */
-public class randomMouse implements AutoSolver {
+public class RandomMouse implements AutoSolver {
 
     MazeRunner mazeRunner;
     int[][] maze;
@@ -25,12 +25,14 @@ public class randomMouse implements AutoSolver {
     final int South = 2;
     final int West = 3;
 
-    public randomMouse(MazeRunner mazeRunner){
+    public RandomMouse(MazeRunner mazeRunner){
         this.currentDirection = North;
         this.mazeRunner = mazeRunner;
+        this.maze = mazeRunner.getMaze();
+        solve(maze);
 
     }
-    boolean Collision() {
+    boolean collision() {
         switch (currentDirection) {
             case North:
                 return maze[self_y-1][self_x] == 0;
@@ -65,33 +67,41 @@ public class randomMouse implements AutoSolver {
         }
     }
 
-    void Move() {
+    void move() {
         moveCounter++;
         switch (currentDirection) {
             case North:
                 mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
                 self_y -= 1;
                 mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
+                mazeRunner.incrementCurrentNumMoves();
+                mazeRunner.updateDisplay();
                 break;
             case South:
                 mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
                 self_y += 1;
                 mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
+                mazeRunner.incrementCurrentNumMoves();
+                mazeRunner.updateDisplay();
                 break;
             case East:
                 mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
                 self_x += 1;
                 mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
+                mazeRunner.incrementCurrentNumMoves();
+                mazeRunner.updateDisplay();
                 break;
             case West:
                 mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
                 self_x -= 1;
                 mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
+                mazeRunner.incrementCurrentNumMoves();
+                mazeRunner.updateDisplay();
                 break;
         }
     }
 
-    public void Solve(int[][] Maze) {
+    public void solve(int[][] Maze) {
         for (int i=0; i< mazeRunner.getMaze().length; i++){
             for (int j=0; j<mazeRunner.getMaze()[i].length; j++){
                 if (mazeRunner.getMaze()[i][j] == MazeRunner.START || mazeRunner.getMaze()[i][j] == MazeRunner.CURRENTLOCATION){
@@ -105,17 +115,19 @@ public class randomMouse implements AutoSolver {
         //Waiting for MazeRunner to be built and how we're going to mess with
         //Imports, in future, will change to const GOAL state.
         while (!(Maze[self_y][self_x] == MazeRunner.END)) {
-            if (Collision()) {
+            if (collision()) {
                 changeDirection();
             } else {
-                Move();
+                move();
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(randomMouse.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(RandomMouse.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
+        mazeRunner.displayWinMessage();
+        mazeRunner.resetCurrentMaze();
 
     }
 }

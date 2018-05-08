@@ -24,42 +24,43 @@ public class RandomMouse implements AutoSolver {
     final int East = 1;
     final int South = 2;
     final int West = 3;
-    
+
     int length = 0;
     int width = 0;
 
-    public RandomMouse(MazeRunner mazeRunner){
+    public RandomMouse(MazeRunner mazeRunner) {
         this.currentDirection = North;
         this.mazeRunner = mazeRunner;
         this.maze = mazeRunner.getMaze();
         solve(maze);
 
     }
+
     boolean collision() {
         switch (currentDirection) {
             case North:
-                if (self_y < 1) {
+                if (self_y <= 1) {
                     return true;
                 } else {
                     return maze[self_y - 1][self_x] == MazeRunner.WALL;
                 }
             case South:
-                if (self_y > length - 1) {
+                if (self_y >= length - 1) {
                     return true;
                 } else {
                     return maze[self_y + 1][self_x] == MazeRunner.WALL;
                 }
             case East:
-                if (self_x > width - 1) {
+                if (self_x >= width - 1) {
                     return true;
                 } else {
                     return maze[self_y][self_x + 1] == MazeRunner.WALL;
                 }
             case West:
-                if (self_x < 1) {
+                if (self_x <= 1) {
                     return true;
                 } else {
-                    return maze[self_y][self_x-1] == MazeRunner.WALL;
+                    return maze[self_y][self_x - 1] == MazeRunner.WALL;
                 }
 
             default:
@@ -67,7 +68,6 @@ public class RandomMouse implements AutoSolver {
                 return true;
         }
     }
-
 
     void changeDirection() {
         Random numGenerator = new Random();
@@ -82,7 +82,7 @@ public class RandomMouse implements AutoSolver {
             case 2:
                 currentDirection = South;
                 break;
-            case West:
+            case 3:
                 currentDirection = West;
                 break;
         }
@@ -91,7 +91,16 @@ public class RandomMouse implements AutoSolver {
     void move() {
         moveCounter++;
         switch (currentDirection) {
+            case West:
+                System.out.println("Moved West");
+                mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
+                self_x -= 1;
+                mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
+                mazeRunner.incrementCurrentNumMoves();
+                mazeRunner.updateDisplay();
+                break;
             case North:
+                System.out.println("Moved North");
                 mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
                 self_y -= 1;
                 mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
@@ -99,6 +108,7 @@ public class RandomMouse implements AutoSolver {
                 mazeRunner.updateDisplay();
                 break;
             case South:
+                System.out.println("Moved South");
                 mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
                 self_y += 1;
                 mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
@@ -106,15 +116,9 @@ public class RandomMouse implements AutoSolver {
                 mazeRunner.updateDisplay();
                 break;
             case East:
+                System.out.println("Moved East");
                 mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
                 self_x += 1;
-                mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
-                mazeRunner.incrementCurrentNumMoves();
-                mazeRunner.updateDisplay();
-                break;
-            case West:
-                mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
-                self_x -= 1;
                 mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
                 mazeRunner.incrementCurrentNumMoves();
                 mazeRunner.updateDisplay();
@@ -123,9 +127,9 @@ public class RandomMouse implements AutoSolver {
     }
 
     public void solve(int[][] Maze) {
-        for (int i=0; i< mazeRunner.getMaze().length; i++){
-            for (int j=0; j<mazeRunner.getMaze()[i].length; j++){
-                if (mazeRunner.getMaze()[i][j] == MazeRunner.START || mazeRunner.getMaze()[i][j] == MazeRunner.CURRENTLOCATION){
+        for (int i = 0; i < mazeRunner.getMaze().length; i++) {
+            for (int j = 0; j < mazeRunner.getMaze()[i].length; j++) {
+                if (mazeRunner.getMaze()[i][j] == MazeRunner.START || mazeRunner.getMaze()[i][j] == MazeRunner.CURRENTLOCATION) {
                     self_x = j;
                     self_y = i;
                     mazeRunner.setCell(self_x, self_y, 4);
@@ -136,7 +140,8 @@ public class RandomMouse implements AutoSolver {
         //Waiting for MazeRunner to be built and how we're going to mess with
         //Imports, in future, will change to const GOAL state.
         while (!(Maze[self_y][self_x] == MazeRunner.END)) {
-            System.out.println("WE MOVED.");
+            System.out.printf("X: %d Y: %d\n", self_x, self_y);
+            System.out.printf("Curent Direction: %d\n", currentDirection);
             changeDirection();
             if (!collision()) {
                 move();
@@ -152,5 +157,3 @@ public class RandomMouse implements AutoSolver {
 
     }
 }
-
-

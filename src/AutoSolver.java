@@ -9,5 +9,5 @@
  * @author jackson
  */
 public interface AutoSolver {
-    void solve(int[][] Maze);
+    void solve();
 }

@@ -212,14 +212,6 @@ public class GUI extends javax.swing.JFrame{
     private void autoSolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoSolveButtonActionPerformed
         // TODO add your handling code here:
         mazeRunner.autoSolve();
-        currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
-        currentNumMovesDisplay.setVisible(true);
-        currentNumMovesLabel.setVisible(true);
-        repaint();
-        createNewMazeButton.setVisible(false);
-        resetCurrentMazeButton.setVisible(false);
-        autoSolveButton.setVisible(false);
-        manualSolveButton.setVisible(false);
     }//GEN-LAST:event_autoSolveButtonActionPerformed
 
     /**

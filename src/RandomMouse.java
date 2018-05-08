@@ -1,22 +1,20 @@
+
+import java.util.Random;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author jackson
+ * @author seanm
  */
 public class RandomMouse implements AutoSolver {
 
     MazeRunner mazeRunner;
-    int[][] maze;
-    int self_x = 0;
-    int self_y = 0;
+    int currentX, currentY;
     int moveCounter = 0;
     int currentDirection;
 
@@ -24,62 +22,35 @@ public class RandomMouse implements AutoSolver {
     final int East = 1;
     final int South = 2;
     final int West = 3;
-    
-    int length = 0;
-    int width = 0;
 
     public RandomMouse(MazeRunner mazeRunner){
         this.currentDirection = North;
         this.mazeRunner = mazeRunner;
-        this.maze = mazeRunner.getMaze();
-        solve(maze);
-
-    }
-    boolean collision() {
-        switch (currentDirection) {
-            case North:
-                if (self_y < 1) {
-                    return true;
-                } else {
-                    return maze[self_y - 1][self_x] == MazeRunner.WALL;
+        for (int i = 0; i < mazeRunner.getMaze().length; i++) {
+            for (int j = 0; j < mazeRunner.getMaze()[i].length; j++) {
+                if (mazeRunner.getMaze()[i][j] == MazeRunner.START || mazeRunner.getMaze()[i][j] == MazeRunner.CURRENTLOCATION) {
+                    currentX = j;
+                    currentY = i;
+                    mazeRunner.setCell(currentX, currentY, 4);
+                    break;
                 }
-            case South:
-                if (self_y > length - 1) {
-                    return true;
-                } else {
-                    return maze[self_y + 1][self_x] == MazeRunner.WALL;
-                }
-            case East:
-                if (self_x > width - 1) {
-                    return true;
-                } else {
-                    return maze[self_y][self_x + 1] == MazeRunner.WALL;
-                }
-            case West:
-                if (self_x < 1) {
-                    return true;
-                } else {
-                    return maze[self_y][self_x-1] == MazeRunner.WALL;
-                }
-
-            default:
-                System.out.println("We should never get here.");
-                return true;
+            }
         }
+        solve();
+
     }
-
-
-    void changeDirection() {
+    
+    private void changeDirection() {
         Random numGenerator = new Random();
         int choice = numGenerator.nextInt(4);
         switch (choice) {
-            case 0:
+            case North:
                 currentDirection = North;
                 break;
-            case 1:
+            case East:
                 currentDirection = East;
                 break;
-            case 2:
+            case South:
                 currentDirection = South;
                 break;
             case West:
@@ -87,70 +58,51 @@ public class RandomMouse implements AutoSolver {
                 break;
         }
     }
-
-    void move() {
-        moveCounter++;
-        switch (currentDirection) {
-            case North:
-                mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
-                self_y -= 1;
-                mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
-                mazeRunner.incrementCurrentNumMoves();
-                mazeRunner.updateDisplay();
-                break;
-            case South:
-                mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
-                self_y += 1;
-                mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
-                mazeRunner.incrementCurrentNumMoves();
-                mazeRunner.updateDisplay();
-                break;
-            case East:
-                mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
-                self_x += 1;
-                mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
-                mazeRunner.incrementCurrentNumMoves();
-                mazeRunner.updateDisplay();
-                break;
-            case West:
-                mazeRunner.setCell(self_x, self_y, MazeRunner.VISITED);
-                self_x -= 1;
-                mazeRunner.setCell(self_x, self_y, MazeRunner.CURRENTLOCATION);
-                mazeRunner.incrementCurrentNumMoves();
-                mazeRunner.updateDisplay();
-                break;
+    
+    @Override
+    public void solve() {
+        if (currentDirection == North) {
+            System.out.println("Move Up");
+            System.out.println("Current Location is: (" + currentX + ", " + currentY + ")");
+            attemptMove(currentX, currentY - 1);
+        } else if ( currentDirection == South) {
+            System.out.println("Move Down");
+            System.out.println("Current Location is: (" + currentX + ", " + currentY + ")");
+            attemptMove(currentX, currentY + 1);
+        } else if (currentDirection == West) {
+            System.out.println("Move Left");
+            System.out.println("Current Location is: (" + currentX + ", " + currentY + ")");
+            attemptMove(currentX - 1, currentY);
+        } else if (currentDirection == East) {
+            System.out.println("Move Right");
+            System.out.println("Current Location is: (" + currentX + ", " + currentY + ")");
+            attemptMove(currentX + 1, currentY);
         }
     }
 
-    public void solve(int[][] Maze) {
-        for (int i=0; i< mazeRunner.getMaze().length; i++){
-            for (int j=0; j<mazeRunner.getMaze()[i].length; j++){
-                if (mazeRunner.getMaze()[i][j] == MazeRunner.START || mazeRunner.getMaze()[i][j] == MazeRunner.CURRENTLOCATION){
-                    self_x = j;
-                    self_y = i;
-                    mazeRunner.setCell(self_x, self_y, 4);
-                    break;
-                }
-            }
-        }
-        //Waiting for MazeRunner to be built and how we're going to mess with
-        //Imports, in future, will change to const GOAL state.
-        while (!(Maze[self_y][self_x] == MazeRunner.END)) {
-            System.out.println("WE MOVED.");
+    private void attemptMove(int x, int y) {
+        System.out.println("Attempting to move to (" + x + ", " + y + ")");
+        if (mazeRunner.getCell(x, y) == MazeRunner.END) {
+            moveCurrentLocation(x, y);
+            mazeRunner.displayWinMessage();
+            mazeRunner.resetCurrentMaze();
+        } else if (mazeRunner.getCell(x, y) != MazeRunner.WALL) {
+            moveCurrentLocation(x, y);
+            solve();
+        } else {
+            System.out.println("Invalid move: Wall");
             changeDirection();
-            if (!collision()) {
-                move();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(RandomMouse.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            solve();
         }
-        mazeRunner.displayWinMessage();
-        mazeRunner.resetCurrentMaze();
-
     }
+
+    private void moveCurrentLocation(int x, int y) {
+        mazeRunner.setCell(x, y, MazeRunner.CURRENTLOCATION);
+        mazeRunner.setCell(currentX, currentY, MazeRunner.VISITED);
+        currentX = x;
+        currentY = y;
+        mazeRunner.incrementCurrentNumMoves();
+        mazeRunner.updateDisplay();
+    }
+
 }
-
-

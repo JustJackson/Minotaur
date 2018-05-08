@@ -105,7 +105,7 @@ class MazeRunner {
     }
     
     public void autoSolve(){
-        as = new WallFollower(this);
+        as = new RandomMouse(this);
     }
     
 }

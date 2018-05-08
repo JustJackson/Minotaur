@@ -85,19 +85,19 @@ public class RandomMouse implements AutoSolver {
 
     private void attemptMove(int x, int y) {
 //        System.out.println("Attempting to move to (" + x + ", " + y + ")");
-        if (x >= mazeRunner.getMaze()[0].length-1 || x <= 0 || y >= mazeRunner.getMaze().length-1 || y <= 0){
+        //if (x >= mazeRunner.getMaze()[0].length-1 || x <= 0 || y >= mazeRunner.getMaze().length-1 || y <= 0){
 //            System.out.println("Falling off the earth.");
-            changeDirection();
-        }
+            //changeDirection();
+        //}
         if (mazeRunner.getCell(x, y) == MazeRunner.END) {
             moveCurrentLocation(x, y);
             mazeRunner.displayWinMessage();
         } else if (mazeRunner.getCell(x, y) != MazeRunner.WALL) {
             moveCurrentLocation(x, y);
-        } else {
+        } //else {
 //            System.out.println("Invalid move: Wall");
             changeDirection();
-        }
+        //}
     }
 
     private void moveCurrentLocation(int x, int y) {

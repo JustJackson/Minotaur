@@ -37,7 +37,6 @@ public class WallFollower implements AutoSolver {
             }
         }
         currentDirection = findWall(currentX, currentY);
-        changeDirection();
         
         while (mazeRunner.getCell(currentX, currentY) != MazeRunner.END){
              solve();
@@ -134,13 +133,13 @@ public class WallFollower implements AutoSolver {
     }
     public int findWall(int x , int y){
         if(mazeRunner.getCell(x, y-1) == MazeRunner.WALL)
-            return North;
-        else if(mazeRunner.getCell(x, y+1) == MazeRunner.WALL)
-            return South;
-        else if(mazeRunner.getCell(x+1, y) == MazeRunner.WALL)
-            return East;
-        else
             return West;
+        else if(mazeRunner.getCell(x, y+1) == MazeRunner.WALL)
+            return East;
+        else if(mazeRunner.getCell(x+1, y) == MazeRunner.WALL)
+            return North;
+        else
+            return South;
     }
 
 }

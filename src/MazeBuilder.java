@@ -148,7 +148,7 @@ public class MazeBuilder {
         boolean llSwitch = numGenerator.nextBoolean();
         //Initial Cooridnate is on the X axis.
         if (llSwitch) {
-            currentX = numGenerator.nextInt(width);
+            currentX = numGenerator.nextInt(width-2)+1;
             boolean topOrBottom = numGenerator.nextBoolean();
             if (topOrBottom) {
                 currentY = 1;
@@ -156,7 +156,7 @@ public class MazeBuilder {
                 currentY = length - 2;
             }
         } else {
-            currentY = numGenerator.nextInt(length);
+            currentY = numGenerator.nextInt(length-2)+1;
             boolean leftOrRight = numGenerator.nextBoolean();
             if (leftOrRight) {
                 currentX = 1;

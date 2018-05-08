@@ -64,7 +64,7 @@ public class GUI extends javax.swing.JFrame{
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
 
-        OuterFrame.setBackground(new java.awt.Color(255, 153, 153));
+        OuterFrame.setBackground(new java.awt.Color(51, 0, 0));
 
         createNewMazeButton.setText("Create New Maze");
         createNewMazeButton.addActionListener(new java.awt.event.ActionListener() {

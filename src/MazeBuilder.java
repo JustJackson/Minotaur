@@ -43,7 +43,7 @@ public class MazeBuilder {
     }
 
     void randomWalk() {
-//        System.out.printf("W: %d L: %d\n", width, length);
+        System.out.printf("W: %d L: %d\n", width, length);
         System.out.printf("X: %d Y: %d\n", currentX, currentY);
         maze[currentX][currentY] = MazeRunner.START;
         boolean exitCondition = false;
@@ -57,7 +57,8 @@ public class MazeBuilder {
                 generateMaze();
                 break;
             }
-            if (maze[currentX][currentY] == nonInitialized || maze[currentX][currentY] == MazeRunner.WALL) {
+//            || maze[currentX][currentY] == MazeRunner.WALL
+            if (maze[currentX][currentY] == nonInitialized) {
                 maze[currentX][currentY] = MazeRunner.NOTVISITED;
             }
             // 0 through 20. (21 Total.)
@@ -135,7 +136,7 @@ public class MazeBuilder {
             maze[0][i] = MazeRunner.WALL;
             maze[width - 1][i] = MazeRunner.WALL;
         }
-        for (int j = 0; j < width; j++) {
+        for (int j = 0; j < width - 1; j++) {
             maze[j][0] = MazeRunner.WALL;
             maze[j][length - 1] = MazeRunner.WALL;
         }

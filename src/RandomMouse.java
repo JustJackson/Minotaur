@@ -36,8 +36,9 @@ public class RandomMouse implements AutoSolver {
                 }
             }
         }
-        solve();
-
+        while (mazeRunner.getCell(currentX, currentY) != MazeRunner.END){
+             solve();
+        }
     }
     
     private void changeDirection() {
@@ -61,43 +62,41 @@ public class RandomMouse implements AutoSolver {
     
     @Override
     public void solve() {
+        System.out.println("Location before solve: X: " + currentX + " Y: " + currentY);
         if (currentDirection == North) {
-            System.out.println("Move Up");
-            System.out.println("Current Location is: (" + currentX + ", " + currentY + ")");
+//            System.out.println("Move Up");
+//            System.out.println("Current Location is: (" + currentX + ", " + currentY + ")");
             attemptMove(currentX, currentY - 1);
         } else if ( currentDirection == South) {
-            System.out.println("Move Down");
-            System.out.println("Current Location is: (" + currentX + ", " + currentY + ")");
+//            System.out.println("Move Down");
+//            System.out.println("Current Location is: (" + currentX + ", " + currentY + ")");
             attemptMove(currentX, currentY + 1);
         } else if (currentDirection == West) {
-            System.out.println("Move Left");
-            System.out.println("Current Location is: (" + currentX + ", " + currentY + ")");
+//            System.out.println("Move Left");
+//            System.out.println("Current Location is: (" + currentX + ", " + currentY + ")");
             attemptMove(currentX - 1, currentY);
         } else if (currentDirection == East) {
-            System.out.println("Move Right");
-            System.out.println("Current Location is: (" + currentX + ", " + currentY + ")");
+//            System.out.println("Move Right");
+//            System.out.println("Current Location is: (" + currentX + ", " + currentY + ")");
             attemptMove(currentX + 1, currentY);
         }
+        System.out.println("Location after solve: X: " + currentX + " Y: " + currentY);
     }
 
     private void attemptMove(int x, int y) {
-        System.out.println("Attempting to move to (" + x + ", " + y + ")");
-        if (y >= mazeRunner.getMaze()[0].length || y =< 0 || x >= mazeRunner.getMaze().length || x =< 0){
-            System.out.println("Falling of the earth.");
+//        System.out.println("Attempting to move to (" + x + ", " + y + ")");
+        if (x >= mazeRunner.getMaze()[0].length-1 || x <= 0 || y >= mazeRunner.getMaze().length-1 || y <= 0){
+//            System.out.println("Falling off the earth.");
             changeDirection();
-            solve();
         }
         if (mazeRunner.getCell(x, y) == MazeRunner.END) {
             moveCurrentLocation(x, y);
             mazeRunner.displayWinMessage();
-            mazeRunner.resetCurrentMaze();
         } else if (mazeRunner.getCell(x, y) != MazeRunner.WALL) {
             moveCurrentLocation(x, y);
-            solve();
         } else {
-            System.out.println("Invalid move: Wall");
+//            System.out.println("Invalid move: Wall");
             changeDirection();
-            solve();
         }
     }
 

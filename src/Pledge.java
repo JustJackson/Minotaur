@@ -40,7 +40,7 @@ public class Pledge implements AutoSolver{
     int currentDirection = North;
     int count = 0;
 
-    boolean Collision(int direction) {
+    boolean collision(int direction) {
         switch (direction) {
             case North:
                 return maze[self_x][self_y - 1] == 0;
@@ -59,13 +59,13 @@ public class Pledge implements AutoSolver{
     void pledgeAlgorithm() {
         if(count != 0){
             for(int i = 0; i < 3; i++){
-            if(!Collision(directionalMatrix[currentDirection][i])){
+            if(!collision(directionalMatrix[currentDirection][i])){
                 count += directionalMatrixValue[currentDirection][i];
                 currentDirection = directionIndex[i];  
-                Move();
+                move();
                 break;
             }
-            else Move();
+            else move();
 
             }
             
@@ -94,7 +94,7 @@ public class Pledge implements AutoSolver{
     
     
 
-    void Move() {
+    void move() {
         moveCounter++;
         switch (currentDirection) {
             case North:
@@ -112,14 +112,14 @@ public class Pledge implements AutoSolver{
         }
     }
 
-    void Solve(int[][] Maze, int x, int y) {
+    void solve(int[][] maze, int x, int y) {
         self_x = x;
         self_y = y;
         setPreferredDirection();
         //Waiting for MazeRunner to be built and how we're going to mess with
         //Imports, in future, will change to const GOAL state.
-        while (!(Maze[self_x][self_y] == 3)) {
-            if (Collision(currentDirection)) {
+        while (!(maze[self_x][self_y] == 3)) {
+            if (collision(currentDirection)) {
                 pledgeAlgorithm();
             } else {
                 Move();
@@ -128,8 +128,4 @@ public class Pledge implements AutoSolver{
 
     }
 
-    @Override
-    public void Solve(int[][] Maze) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

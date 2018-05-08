@@ -24,6 +24,9 @@ public class RandomMouse implements AutoSolver {
     final int East = 1;
     final int South = 2;
     final int West = 3;
+    
+    int length = 0;
+    int width = 0;
 
     public RandomMouse(MazeRunner mazeRunner){
         this.currentDirection = North;
@@ -35,18 +38,36 @@ public class RandomMouse implements AutoSolver {
     boolean collision() {
         switch (currentDirection) {
             case North:
-                return maze[self_y-1][self_x] == 0;
+                if (self_y <= 1) {
+                    return true;
+                } else {
+                    return maze[self_x][self_y - 1] == MazeRunner.WALL;
+                }
             case South:
-                return maze[self_y+1][self_x] == 0;
+                if (self_y >= length - 1) {
+                    return true;
+                } else {
+                    return maze[self_x][self_y + 1] == MazeRunner.WALL;
+                }
             case East:
-                return maze[self_y][self_x+1] == 0;
+                if (self_x >= width - 1) {
+                    return true;
+                } else {
+                    return maze[self_x + 1][self_y] == MazeRunner.WALL;
+                }
             case West:
-                return maze[self_y][self_x+1] == 0;
+                if (self_x <= 1) {
+                    return true;
+                } else {
+                    return maze[self_x - 1][self_y] == MazeRunner.WALL;
+                }
+
             default:
                 System.out.println("We should never get here.");
                 return true;
         }
     }
+
 
     void changeDirection() {
         Random numGenerator = new Random();
@@ -115,9 +136,8 @@ public class RandomMouse implements AutoSolver {
         //Waiting for MazeRunner to be built and how we're going to mess with
         //Imports, in future, will change to const GOAL state.
         while (!(Maze[self_y][self_x] == MazeRunner.END)) {
-            if (collision()) {
-                changeDirection();
-            } else {
+            changeDirection();
+            if (!collision()) {
                 move();
                 try {
                     Thread.sleep(500);

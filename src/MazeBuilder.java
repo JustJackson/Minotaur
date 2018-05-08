@@ -52,7 +52,7 @@ public class MazeBuilder {
         int counter = 0;
         int loopBreaker = 0;
         while (!exitCondition) {
-            System.out.println(loopBreaker);
+//            System.out.println(loopBreaker);
             if (loopBreaker > 50) {
                 generateMaze();
                 break;
@@ -64,7 +64,7 @@ public class MazeBuilder {
             int choice = numGenerator.nextInt(21);
             //We could make this just a break and have an unlimited for 
             //but I think this is better for clarity.
-            if (choice == 0 && (currentX == 0 || currentY == 0 || currentX == width-1 || currentY == length-1) && counter >= minDistance) {
+            if (choice == 0 && (currentX == 1 || currentY == 1 || currentX == width-1 || currentY == length-1) && counter >= minDistance) {
                 maze[currentX][currentY] = MazeRunner.END;
                 exitCondition = true;
             }
@@ -145,7 +145,7 @@ public class MazeBuilder {
             currentX = numGenerator.nextInt(width);
             boolean topOrBottom = numGenerator.nextBoolean();
             if (topOrBottom) {
-                currentY = 0;
+                currentY = 1;
             } else {
                 currentY = length - 1;
             }
@@ -153,7 +153,7 @@ public class MazeBuilder {
             currentY = numGenerator.nextInt(length);
             boolean leftOrRight = numGenerator.nextBoolean();
             if (leftOrRight) {
-                currentX = 0;
+                currentX = 1;
             } else {
                 currentX = width - 1;
             }

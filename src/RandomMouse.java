@@ -38,28 +38,28 @@ public class RandomMouse implements AutoSolver {
     boolean collision() {
         switch (currentDirection) {
             case North:
-                if (self_y <= 1) {
+                if (self_y < 1) {
                     return true;
                 } else {
-                    return maze[self_x][self_y - 1] == MazeRunner.WALL;
+                    return maze[self_y - 1][self_x] == MazeRunner.WALL;
                 }
             case South:
-                if (self_y >= length - 1) {
+                if (self_y > length - 1) {
                     return true;
                 } else {
-                    return maze[self_x][self_y + 1] == MazeRunner.WALL;
+                    return maze[self_y + 1][self_x] == MazeRunner.WALL;
                 }
             case East:
-                if (self_x >= width - 1) {
+                if (self_x > width - 1) {
                     return true;
                 } else {
-                    return maze[self_x + 1][self_y] == MazeRunner.WALL;
+                    return maze[self_y][self_x + 1] == MazeRunner.WALL;
                 }
             case West:
-                if (self_x <= 1) {
+                if (self_x < 1) {
                     return true;
                 } else {
-                    return maze[self_x - 1][self_y] == MazeRunner.WALL;
+                    return maze[self_y][self_x-1] == MazeRunner.WALL;
                 }
 
             default:
@@ -136,6 +136,7 @@ public class RandomMouse implements AutoSolver {
         //Waiting for MazeRunner to be built and how we're going to mess with
         //Imports, in future, will change to const GOAL state.
         while (!(Maze[self_y][self_x] == MazeRunner.END)) {
+            System.out.println("WE MOVED.");
             changeDirection();
             if (!collision()) {
                 move();

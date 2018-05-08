@@ -27,16 +27,16 @@ public class MazeBuilder {
         boolean result = false;
         switch (Direction) {
             case 'N':
-                result = !(y - 1 <= 2);
+                result = !(y - 1 <= 1);
                 break;
             case 'S':
-                result = !(y + 1 <= length - 2);
+                result = !(y + 1 <= length + 1);
                 break;
             case 'E':
-                result = !(x + 1 <= width - 2);
+                result = !(x + 1 <= width + 1);
                 break;
             case 'W':
-                result = !(x - 1 <= 2);
+                result = !(x - 1 <= 1);
                 break;
         }
         return result;

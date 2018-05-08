@@ -27,16 +27,16 @@ public class MazeBuilder {
         boolean result = false;
         switch (Direction) {
             case 'N':
-                result = !(y - 1 <= 1);
+                result = !(y - 1 <= 2);
                 break;
             case 'S':
-                result = !(y + 1 <= length + 1);
+                result = !(y + 1 <= length - 2);
                 break;
             case 'E':
-                result = !(x + 1 <= width + 1);
+                result = !(x + 1 <= width - 2);
                 break;
             case 'W':
-                result = !(x - 1 <= 1);
+                result = !(x - 1 <= 2);
                 break;
         }
         return result;
@@ -45,10 +45,10 @@ public class MazeBuilder {
     void randomWalk() {
         System.out.printf("W: %d L: %d\n", width, length);
         System.out.printf("X: %d Y: %d\n", currentX, currentY);
-        maze[currentX][currentY] = MazeRunner.START;
+        maze[currentY][currentX] = MazeRunner.START;
         boolean exitCondition = false;
         Random numGenerator = new Random();
-        int minDistance = ((width+length)/2)/2;
+        int minDistance = ((width + length) / 2) / 2;
         int counter = 0;
         int loopBreaker = 0;
         while (!exitCondition) {
@@ -58,15 +58,15 @@ public class MazeBuilder {
                 break;
             }
 //            || maze[currentX][currentY] == MazeRunner.WALL
-            if (maze[currentX][currentY] == nonInitialized) {
-                maze[currentX][currentY] = MazeRunner.NOTVISITED;
+            if (maze[currentY][currentX] == nonInitialized) {
+                maze[currentY][currentX] = MazeRunner.NOTVISITED;
             }
             // 0 through 20. (21 Total.)
             int choice = numGenerator.nextInt(41);
             //We could make this just a break and have an unlimited for 
             //but I think this is better for clarity.
             if (choice == 0 && counter > minDistance) {
-                maze[currentX][currentY] = MazeRunner.END;
+                maze[currentY][currentX] = MazeRunner.END;
                 exitCondition = true;
             }
             if (choice > 1 && choice <= 10) {
@@ -110,11 +110,11 @@ public class MazeBuilder {
 
     void initalizeMaze() {
         Random numGenerator = new Random();
-        for (int y = 0; y < length; y++) {
-            for (int x = 0; x < width; x++) {
-                if (maze[x][y] == nonInitialized) {
+        for (int y = 1; y < length-2; y++) {
+            for (int x = 1; x < width-2; x++) {
+                if (maze[y][x] == nonInitialized) {
                     int value = numGenerator.nextInt(10) + 1;
-                    maze[x][y] = ((value > 6) ? MazeRunner.NOTVISITED : MazeRunner.WALL);
+                    maze[y][x] = ((value > 6) ? MazeRunner.NOTVISITED : MazeRunner.WALL);
                 }
             }
         }
@@ -123,22 +123,27 @@ public class MazeBuilder {
     void generateMaze() {
         int startingPointX, startingPointY, endPointX, endPointY;
         Random numGenerator = new Random();
-        width = numGenerator.nextInt(10) + 6;
-        length = numGenerator.nextInt(10) + 6;
-        maze = new int[width][length];
+        width = numGenerator.nextInt(10) + 7;
+        length = numGenerator.nextInt(10) + 7;
+        maze = new int[length][width];
         for (int y = 1; y < length - 1; y++) {
             for (int x = 1; x < width - 1; x++) {
-                maze[x][y] = nonInitialized;
+                maze[y][x] = nonInitialized;
             }
         }
         //Initialize the Walls
-        for (int i = 0; i < length - 1; i++) {
-            maze[0][i] = MazeRunner.WALL;
-            maze[width - 1][i] = MazeRunner.WALL;
-        }
-        for (int j = 0; j < width - 1; j++) {
-            maze[j][0] = MazeRunner.WALL;
-            maze[j][length - 1] = MazeRunner.WALL;
+        for (int i = 0; i < length ; i++) {
+            if (i == 0 || i == length-1){
+            for (int j = 0; j < width; j++) {
+                maze[0][j] = MazeRunner.WALL;
+                maze[length - 1][j] = MazeRunner.WALL;
+            }
+            }
+            else{
+                    maze[i][0] = MazeRunner.WALL;
+                    maze[i][width-1] = MazeRunner.WALL;
+            }
+            
         }
         boolean llSwitch = numGenerator.nextBoolean();
         //Initial Cooridnate is on the X axis.
@@ -148,7 +153,7 @@ public class MazeBuilder {
             if (topOrBottom) {
                 currentY = 1;
             } else {
-                currentY = length - 1;
+                currentY = length - 2;
             }
         } else {
             currentY = numGenerator.nextInt(length);
@@ -156,7 +161,7 @@ public class MazeBuilder {
             if (leftOrRight) {
                 currentX = 1;
             } else {
-                currentX = width - 1;
+                currentX = width - 2;
             }
         }
 //        currentX = numGenerator.nextInt(width);

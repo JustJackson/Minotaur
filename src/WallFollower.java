@@ -1,4 +1,5 @@
 
+import java.awt.event.KeyEvent;
 import java.util.Random;
 
 /*
@@ -11,17 +12,17 @@ import java.util.Random;
  *
  * @author seanm
  */
-public class WallFollower implements AutoSolver {
+public class WallFollower implements Solver {
 
-    MazeRunner mazeRunner;
-    int currentX, currentY;
-    int moveCounter = 0;
-    int currentDirection;
+    private MazeRunner mazeRunner;
+    private int currentX, currentY;
+    private int moveCounter = 0;
+    private int currentDirection;
 
-    final int North = 0;
-    final int East = 1;
-    final int South = 2;
-    final int West = 3;
+    private final int North = 0;
+    private final int East = 1;
+    private final int South = 2;
+    private final int West = 3;
 
     public WallFollower(MazeRunner mazeRunner){
         
@@ -131,7 +132,7 @@ public class WallFollower implements AutoSolver {
         mazeRunner.incrementCurrentNumMoves();
         mazeRunner.updateDisplay();
     }
-    public int findWall(int x , int y){
+    private int findWall(int x , int y){
         if(mazeRunner.getCell(x, y-1) == MazeRunner.WALL)
             return West;
         else if(mazeRunner.getCell(x, y+1) == MazeRunner.WALL)
@@ -140,6 +141,21 @@ public class WallFollower implements AutoSolver {
             return North;
         else
             return South;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

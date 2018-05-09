@@ -64,7 +64,7 @@ public class GUI extends javax.swing.JFrame{
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
 
-        OuterFrame.setBackground(new java.awt.Color(51, 0, 0));
+        OuterFrame.setBackground(new java.awt.Color(0, 0, 0));
 
         createNewMazeButton.setText("Create New Maze");
         createNewMazeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -181,7 +181,7 @@ public class GUI extends javax.swing.JFrame{
     private void manualSolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualSolveButtonActionPerformed
         // TODO add your handling code here:
         mazeRunner.manualSolve();
-        field.addKeyListener(mazeRunner.ms);
+        field.addKeyListener(mazeRunner.getSolver());
         currentNumMovesDisplay.setText(String.valueOf(mazeRunner.getCurrentNumMoves()));
         currentNumMovesDisplay.setVisible(true);
         currentNumMovesLabel.setVisible(true);
@@ -254,6 +254,7 @@ public class GUI extends javax.swing.JFrame{
     // End of variables declaration//GEN-END:variables
 
     
+    //Draw the maze
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -305,8 +306,9 @@ public class GUI extends javax.swing.JFrame{
         setBaseState();
     }
     
+    //sets state for case: Not in solver
     private void setBaseState(){
-        field.removeKeyListener(mazeRunner.ms);
+        field.removeKeyListener(mazeRunner.getSolver());
         giveUpButton.setVisible(false);
         currentNumMovesDisplay.setVisible(false);
         currentNumMovesLabel.setVisible(false);

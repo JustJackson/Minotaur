@@ -3,11 +3,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JTextField;
 
-public class ManualSolver implements KeyListener {
+public class ManualSolver implements KeyListener, Solver {
 
-    //where initialization occurs:
-    MazeRunner mazeRunner;
-    int currentX, currentY;
+    private MazeRunner mazeRunner;
+    private int currentX, currentY;
 
     public ManualSolver(MazeRunner mazeRunner) {
         System.out.println("Entering Manual Solver");
@@ -75,6 +74,11 @@ public class ManualSolver implements KeyListener {
         currentY = y;
         mazeRunner.incrementCurrentNumMoves();
         mazeRunner.updateDisplay();
+    }
+    
+    @Override
+    public void solve(){
+        //Solving work is handled by the KeyEvents for manualSolve from the keyListener
     }
 
 }

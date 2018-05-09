@@ -1,3 +1,6 @@
+
+import java.awt.event.KeyListener;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,8 +14,8 @@
 class MazeRunner {
     
     int[][] maze;
-    ManualSolver ms;
-    AutoSolver as;
+    Solver solver;
+
     GUI gui;
     MazeBuilder mazeBuilder;
     
@@ -24,13 +27,6 @@ class MazeRunner {
     static final int END = 9;
     int currentNumMoves;
     
-    /**
-     * Values: 1 = START, 0 = not visited, 2 = wall, 3 = visited, 4 = current location, 9 = END
-     */
-    
-    /*
-    This is a dummy maze until we get a functioning MazeBuilder
-    */
     public MazeRunner(){
         mazeBuilder = new MazeBuilder();
         createNewMaze();
@@ -42,7 +38,7 @@ class MazeRunner {
     }
     
     public void manualSolve(){
-        ms = new ManualSolver(this);
+        solver = new ManualSolver(this);
     }
     /**
      * newValue: 1 = START, 0 = not visited, 2 = wall, 3 = visited, 4 = current location, 9 = END
@@ -105,7 +101,11 @@ class MazeRunner {
     }
     
     public void autoSolve(){
-        as = new RandomMouse(this);
+        solver = new RandomMouse(this);
+    }
+
+    Solver getSolver() {
+        return solver;
     }
     
 }

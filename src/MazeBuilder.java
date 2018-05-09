@@ -8,22 +8,15 @@ import java.util.Random;
 public class MazeBuilder {
 
     private int[][] maze;
-    public static int width;
-    public static int length;
-    public static int currentX;
-    public static int currentY;
-//
-//    static final int NOTVISITED = 0;
-//    static final int START = 1;
-//    static final int WALL = 2;
-//    static final int VISITED = 3;
-//    static final int CURRENTLOCATION = 4;
-//    static final int END = 9;
+    private int width;
+    private int length;
+    private int currentX;
+    private int currentY;
 
-    final int nonInitialized = 5;
+    private final int nonInitialized = 5;
 
     //
-    boolean boundCheck(char Direction, int x, int y) {
+    private boolean boundCheck(char Direction, int x, int y) {
         boolean result = false;
         switch (Direction) {
             case 'N':
@@ -42,7 +35,7 @@ public class MazeBuilder {
         return result;
     }
 
-    void randomWalk() {
+    private void randomWalk() {
         System.out.printf("W: %d L: %d\n", width, length);
         System.out.printf("X: %d Y: %d\n", currentX, currentY);
         maze[currentY][currentX] = MazeRunner.START;
@@ -108,7 +101,7 @@ public class MazeBuilder {
         }
     }
 
-    void initalizeMaze() {
+    private void initalizeMaze() {
         Random numGenerator = new Random();
         for (int y = 1; y < length-2; y++) {
             for (int x = 1; x < width-2; x++) {
@@ -125,6 +118,8 @@ public class MazeBuilder {
         Random numGenerator = new Random();
         width = numGenerator.nextInt(10) + 7;
         length = numGenerator.nextInt(10) + 7;
+        
+        //set inside of maze to notInitialized
         maze = new int[length][width];
         for (int y = 1; y < length - 1; y++) {
             for (int x = 1; x < width - 1; x++) {
@@ -164,18 +159,16 @@ public class MazeBuilder {
                 currentX = width - 2;
             }
         }
-//        currentX = numGenerator.nextInt(width);
-//        currentY = numGenerator.nextInt(length);
         randomWalk();
         initalizeMaze();
-//        prettyPrint();
     }
 
     int[][] returnMaze() {
         return maze;
     }
 
-    public void prettyPrint() {
+    //terminal print for testing
+    private void prettyPrint() {
         for (int y = 0; y < length - 1; y++) {
             for (int x = 0; x < width - 1; x++) {
                 System.out.print(maze[x][y]);

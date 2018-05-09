@@ -1,4 +1,5 @@
 
+import java.awt.event.KeyEvent;
 import java.util.Random;
 
 /*
@@ -11,17 +12,17 @@ import java.util.Random;
  *
  * @author seanm
  */
-public class RandomMouse implements AutoSolver {
+public class RandomMouse implements Solver {
 
-    MazeRunner mazeRunner;
-    int currentX, currentY;
-    int moveCounter = 0;
-    int currentDirection;
+    private MazeRunner mazeRunner;
+    private int currentX, currentY;
+    private int moveCounter = 0;
+    private int currentDirection;
 
-    final int North = 0;
-    final int East = 1;
-    final int South = 2;
-    final int West = 3;
+    private final int North = 0;
+    private final int East = 1;
+    private final int South = 2;
+    private final int West = 3;
 
     public RandomMouse(MazeRunner mazeRunner){
         this.currentDirection = North;
@@ -107,6 +108,21 @@ public class RandomMouse implements AutoSolver {
         currentY = y;
         mazeRunner.incrementCurrentNumMoves();
         mazeRunner.updateDisplay();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //TODO
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

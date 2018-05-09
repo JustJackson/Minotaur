@@ -1,37 +1,38 @@
 
+import java.awt.event.KeyEvent;
 import java.util.Random;
 
 /**
  *
  * @author Michael DuBose
  */
-public class Pledge implements AutoSolver {
+public class Pledge implements Solver {
 
-    MazeRunner mazeRunner;
+    private MazeRunner mazeRunner;
 
-    int currentX;
-    int currentY;
+    private int currentX;
+    private int currentY;
     int moveCounter = 0;
 
-    final int North = 0;
-    final int East = 1;
-    final int South = 2;
-    final int West = 3;
-    int[][] directionalMatrix
+    private final int North = 0;
+    private final int East = 1;
+    private final int South = 2;
+    private final int West = 3;
+    private int[][] directionalMatrix
             = {
                 {East, North, West, South},
                 {South, East, North, West},
                 {West, South, East, North},
                 {North, West, South, East}};
-    int[][] directionalMatrixValue = {
+    private int[][] directionalMatrixValue = {
         {0, 1, 2, -1},
         {-1, 0, 1, 2},
         {2, -1, 0, 1},
         {1, 2, -1, 0}};
-    int[] directionIndex = {North, East, South, West};
-    int preferredDirection;
-    int currentDirection;
-    int count;
+    private int[] directionIndex = {North, East, South, West};
+    private int preferredDirection;
+    private int currentDirection;
+    private int count;
 
     public Pledge(MazeRunner mazeRunner) {
         this.mazeRunner = mazeRunner;
@@ -51,7 +52,7 @@ public class Pledge implements AutoSolver {
         solve();
     }
 
-    boolean collision(int direction) {
+    private boolean collision(int direction) {
         switch (direction) {
             case North:
                 return mazeRunner.getCell(currentX, currentY - 1) == MazeRunner.WALL;
@@ -67,7 +68,7 @@ public class Pledge implements AutoSolver {
         }
     }
 
-    void setPreferredDirection() {
+    private void setPreferredDirection() {
         Random numGenerator = new Random();
         int choice = numGenerator.nextInt(4);
         switch (choice) {
@@ -87,7 +88,7 @@ public class Pledge implements AutoSolver {
         System.out.println("Your preferred choice is " + choice);
     }
 
-    void move() {
+    private void move() {
         moveCounter++;
         switch (currentDirection) {
             case North:
@@ -125,7 +126,7 @@ public class Pledge implements AutoSolver {
         }
     }
 
-    void pledgeAlgorithm() {
+    private void pledgeAlgorithm() {
         System.out.println("In Algorithm");
         if (count == 0) {
             for (int i = 0; i < 3; i++) {
@@ -165,6 +166,21 @@ public class Pledge implements AutoSolver {
             }
         }
 
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
